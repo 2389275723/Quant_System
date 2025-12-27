@@ -1,8 +1,12 @@
-﻿* text=auto
+﻿# keep attrs file stable
+.gitattributes text eol=lf
 
+# windows scripts
 *.bat text eol=crlf
+*.cmd text eol=crlf
 *.ps1 text eol=crlf
 
+# source
 *.py  text eol=lf
 *.md  text eol=lf
 *.txt text eol=lf
