@@ -1,0 +1,89 @@
+system:
+  strategy_id: GXFC
+  version: v1.5.4
+  timezone: Asia/Shanghai
+news:
+  enabled: true
+  enable_tushare_ctx: true
+  enable_gdelt: true
+  enable_external_prices: true
+  external_prices:
+    watchlist:
+      标普500: ^spx
+      道琼斯: ^dji
+      纳指100: ^ndx
+      COMEX铜: hg.f
+      WTI原油: cl.f
+      黄金: gc.f
+  gdelt:
+    hours: 8
+    limit: 12
+paths:
+  db_path: data/quant.db
+  bars_path: data/bars/daily_bars.csv
+  outbox_dir: bridge/outbox
+  inbox_dir: bridge/inbox
+  stop_file: bridge/STOP
+universe:
+  exclude_prefixes:
+  - '300'
+  - '301'
+  - '688'
+  - '689'
+  exclude_markets:
+  - STAR
+  - GEM
+  exclude_bj: true
+  max_total_mv_yi: 500.0
+scoring:
+  top_m: 200
+  top_n: 5
+  weights:
+    trend: 0.5
+    flow: 0.3
+    fund: 0.2
+v1_5:
+  enable_regime_engine: true
+  enable_vol_damper: true
+  enable_strength_gate: true
+  strength_gate_min_final_score: 0.15
+model:
+  enabled: true
+  budget_sec: 1200
+  batch_size: 10
+  deepseek:
+    api_key_env: DEEPSEEK_API_KEY
+    base_url: https://api.deepseek.com
+    model: deepseek-chat
+  qwen:
+    api_key_env: DASHSCOPE_API_KEY
+    base_url: https://dashscope.aliyuncs.com/compatible-mode/v1
+    model: qwen3-max
+  max_items: 20
+  deepseek_model: deepseek-chat
+  qwen_model: qwen3-max
+  rerank_enabled: true
+risk_gate:
+  veto:
+    severity_gte: 3
+    prob_gt: 0.3
+  downweight:
+    k: 0.3
+portfolio:
+  max_position_per_stock: 0.2
+  max_daily_turnover: 1.0
+  buffer_buy_rank_le: 5
+  buffer_sell_rank_gt: 20
+sanity:
+  fat_finger:
+    max_lines: 30
+    max_notional_per_order: 500000
+  asset_check:
+    enabled: false
+    max_abs_diff: 0.01
+    max_rel_diff: 0.05
+ui:
+  refresh_ms: 10000
+  ptrade_heartbeat_stale_sec: 120
+strategy:
+  top_n: 5
