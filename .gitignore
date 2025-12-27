@@ -1,0 +1,33 @@
+# ---- Python cache ----
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# ---- venv ----
+.venv/
+venv/
+env/
+
+# ---- runtime outputs ----
+logs/
+reports/
+
+# ---- local secrets ----
+.env
+*.key
+*.pem
+
+# ---- large/local data (按需：如果 data 是生成的就忽略；如果 data 有 schema/静态资源就别忽略) ----
+# data/
+
+# ---- trash/archives ----
+_trash_*/
+*.zip
+
+# ---- OS ----
+.DS_Store
+Thumbs.db
