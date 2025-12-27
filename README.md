@@ -93,5 +93,13 @@ python main.py morning
 
 ---
 
+## Repo cleanup (Windows)
+
+Preview cleanup (no changes):
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts/cleanup_repo.ps1 -Mode preview -MovePatchArtifacts
+
+---
+
 ## 免责声明
 本包为工程模板，不构成任何投资建议。
