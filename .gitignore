@@ -42,3 +42,6 @@ _trash_*/
 !data/.gitkeep
 !logs/.gitkeep
 !reports/.gitkeep
+
+research/
+bridge/outbox/orders.csv
