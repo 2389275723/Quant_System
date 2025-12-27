@@ -11,6 +11,7 @@ from src.core.paths import resolve_from_cfg
 from src.core.env import load_env_from_cfg_path
 from src.core.hashing import stable_hash_dict, file_hash
 from src.core.timeutil import make_run_id, now_cn
+from src.utils.trade_date import normalize_trade_date
 from src.storage.sqlite import connect
 from src.storage.schema import ensure_schema
 from src.storage.upsert import upsert_df
@@ -75,7 +76,11 @@ def run_night_job(cfg_path: str = "config/config.yaml", trade_date: Optional[str
 
     try:
         bars = pd.read_csv(bars_path, dtype={"ts_code": str})
-        bars["trade_date"] = bars["trade_date"].astype(str)
+        if "trade_date" in bars.columns:
+            bars["trade_date"] = bars["trade_date"].apply(normalize_trade_date)
+        # Normalize incoming trade_date param for comparison
+        if trade_date is not None:
+            trade_date = normalize_trade_date(trade_date)
 
         if trade_date is None:
             # choose the latest available date in the bars file

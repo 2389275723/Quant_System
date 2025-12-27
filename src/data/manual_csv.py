@@ -6,6 +6,7 @@ from typing import Any, Dict
 import pandas as pd
 
 from ..core.config import resolve_path
+from ..utils.trade_date import normalize_trade_date
 
 def _read_csv(path: str) -> pd.DataFrame:
     p = resolve_path(path)
@@ -34,33 +35,56 @@ class ManualCSVSource:
         df = _read_csv(self.paths.get("bars_path", ""))
         if df.empty:
             return df
-        # Normalize
-        if "trade_date" in df.columns:
-            df["trade_date"] = df["trade_date"].astype(str).str.replace("-", "")
-        # Filter lookback by date string (assumes YYYYMMDD)
-        df = df[df["trade_date"] <= str(end_trade_date)]
-        # Keep last N distinct dates
-        dates = sorted(df["trade_date"].unique().tolist())
+        if "trade_date" not in df.columns:
+            return pd.DataFrame()
+
+        # Normalize both source and filter to tolerate YYYYMMDD / YYYY-MM-DD
+        df["_trade_date_norm"] = df["trade_date"].apply(lambda x: normalize_trade_date(x, sep=""))
+        df = df[df["_trade_date_norm"] != ""]
+
+        end_td = normalize_trade_date(end_trade_date, sep="")
+        if end_td:
+            df = df[df["_trade_date_norm"] <= end_td]
+
+        # Keep last N distinct dates based on normalized digits
+        dates = sorted(df["_trade_date_norm"].unique().tolist())
         if lookback_days > 0 and len(dates) > lookback_days:
             keep = set(dates[-lookback_days:])
-            df = df[df["trade_date"].isin(keep)]
-        return df
+            df = df[df["_trade_date_norm"].isin(keep)]
+
+        # Return canonical YYYY-MM-DD for downstream consumers
+        df["trade_date"] = df["_trade_date_norm"].apply(lambda x: normalize_trade_date(x, sep="-"))
+        return df.drop(columns=["_trade_date_norm"])
 
     def get_daily_basic(self, trade_date: str) -> pd.DataFrame:
         df = _read_csv(self.paths.get("daily_basic_path", ""))
         if df.empty:
             return df
-        if "trade_date" in df.columns:
-            df["trade_date"] = df["trade_date"].astype(str).str.replace("-", "")
-        return df[df["trade_date"] == str(trade_date)].copy()
+        if "trade_date" not in df.columns:
+            return pd.DataFrame()
+
+        df["_trade_date_norm"] = df["trade_date"].apply(lambda x: normalize_trade_date(x, sep=""))
+        df = df[df["_trade_date_norm"] != ""]
+        target = normalize_trade_date(trade_date, sep="")
+        if target:
+            df = df[df["_trade_date_norm"] == target]
+        df["trade_date"] = df["_trade_date_norm"].apply(lambda x: normalize_trade_date(x, sep="-"))
+        return df.drop(columns=["_trade_date_norm"]).copy()
 
     def get_auction_quotes(self, trade_date: str) -> pd.DataFrame:
         df = _read_csv(self.paths.get("auction_path", ""))
         if df.empty:
             return df
-        if "trade_date" in df.columns:
-            df["trade_date"] = df["trade_date"].astype(str).str.replace("-", "")
-        return df[df["trade_date"] == str(trade_date)].copy()
+        if "trade_date" not in df.columns:
+            return pd.DataFrame()
+
+        df["_trade_date_norm"] = df["trade_date"].apply(lambda x: normalize_trade_date(x, sep=""))
+        df = df[df["_trade_date_norm"] != ""]
+        target = normalize_trade_date(trade_date, sep="")
+        if target:
+            df = df[df["_trade_date_norm"] == target]
+        df["trade_date"] = df["_trade_date_norm"].apply(lambda x: normalize_trade_date(x, sep="-"))
+        return df.drop(columns=["_trade_date_norm"]).copy()
 
     def get_ptrade_exports(self) -> Dict[str, str]:
         return {

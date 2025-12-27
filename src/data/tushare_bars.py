@@ -9,6 +9,8 @@ from typing import Any, Dict, Optional, Tuple
 
 import pandas as pd
 
+from src.utils.trade_date import normalize_trade_date
+
 
 @dataclass
 class TushareBarsConfig:
@@ -150,13 +152,14 @@ def health_check(trade_date: str, cfg: Optional[TushareBarsConfig] = None) -> bo
     http_url = os.getenv(cfg.http_url_env, "").strip()
     if not http_url:
         raise RuntimeError(f"Missing {cfg.http_url_env}. Please set it in .env or in UI settings.")
+    trade_date_norm = normalize_trade_date(trade_date, sep="")
 
     # Probe code is optional for daily (trade_date). Keep for future usage.
     _ = os.getenv(cfg.probe_code_env, "").strip() or "000001.SZ"
 
     # Some users may input non-trading-day; we try backward a few days.
     try:
-        dt = datetime.datetime.strptime(trade_date, "%Y%m%d")
+        dt = datetime.datetime.strptime(normalize_trade_date(trade_date, sep=""), "%Y%m%d")
     except Exception:
         raise RuntimeError("trade_date 格式错误，应为 YYYYMMDD，例如 20251225")
 
@@ -223,7 +226,7 @@ def update_daily_bars_csv(
         http_url=http_url,
         token=token,
         api_name="daily",
-        params={"trade_date": trade_date},
+        params={"trade_date": trade_date_norm},
         fields="ts_code,trade_date,open,high,low,close,pre_close,change,pct_chg,vol,amount",
         timeout_sec=cfg.timeout_sec,
     )
@@ -233,7 +236,8 @@ def update_daily_bars_csv(
             "可能原因：trade_date 非交易日 / 网关数据缺失 / 权限不足 / 路由不兼容。"
         )
     daily["ts_code"] = daily["ts_code"].astype(str)
-    daily["trade_date"] = daily["trade_date"].astype(str)
+    if "trade_date" in daily.columns:
+        daily["trade_date"] = daily["trade_date"].apply(normalize_trade_date)
 
     # 3) daily basic (optional)
     # NOTE: mv fields in Tushare daily_basic are often in "万元".
@@ -253,7 +257,7 @@ def update_daily_bars_csv(
             http_url=http_url,
             token=token,
             api_name="daily_basic",
-            params={"trade_date": trade_date},
+            params={"trade_date": trade_date_norm},
             fields=",".join(daily_basic_cols),
             timeout_sec=cfg.timeout_sec,
         )
@@ -266,7 +270,7 @@ def update_daily_bars_csv(
     if "ts_code" in daily_basic.columns:
         daily_basic["ts_code"] = daily_basic["ts_code"].astype(str)
     if "trade_date" in daily_basic.columns:
-        daily_basic["trade_date"] = daily_basic["trade_date"].astype(str)
+        daily_basic["trade_date"] = daily_basic["trade_date"].apply(normalize_trade_date)
 
     # 4) merge
     df = daily.merge(basic, on="ts_code", how="left")
