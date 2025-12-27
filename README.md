@@ -93,6 +93,12 @@ python main.py morning
 
 ---
 
+## 验收/自检
+鍦ㄥ熀鍦板浠朵腑鎵ц涓€閿畨瑁呯煡璇嗭細
+```powershell
+.\check.bat
+```
+
 ## Repo cleanup (Windows)
 
 Preview cleanup (no changes):
