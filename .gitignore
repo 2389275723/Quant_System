@@ -31,3 +31,14 @@ _trash_*/
 # ---- OS ----
 .DS_Store
 Thumbs.db
+
+# ---- local runtime / big data ----
+data/*
+logs/*
+reports/*
+_trash_*/
+
+# keep directories
+!data/.gitkeep
+!logs/.gitkeep
+!reports/.gitkeep
