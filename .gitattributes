@@ -1,0 +1,13 @@
+# Auto normalize text files
+* text=auto
+
+# Python + docs keep LF (cross-platform)
+*.py  text eol=lf
+*.md  text eol=lf
+*.txt text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+
+# Windows scripts keep CRLF
+*.bat text eol=crlf
+*.ps1 text eol=crlf
