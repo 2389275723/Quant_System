@@ -28,167 +28,54 @@ def _require_token(cfg: TushareBarsConfig) -> str:
     return token
 
 
-def _to_cols(fields: Any) -> list[str]:
-    if fields is None:
-        return []
-    if isinstance(fields, str):
-        s = fields.strip()
-        if not s:
-            return []
-        return [c.strip() for c in s.split(",") if c.strip()]
-    if isinstance(fields, (list, tuple)):
-        return [str(x).strip() for x in fields if str(x).strip()]
-    return []
+def _require_http_url(cfg: TushareBarsConfig) -> str:
+    url = os.getenv(cfg.http_url_env, "").strip()
+    if not url:
+        raise RuntimeError(f"Missing {cfg.http_url_env}. Please set it in .env or environment variables.")
+    return url.rstrip("/")
 
 
-def _parse_tushare_json(obj: Dict[str, Any], *, api_name: str, used_url: str) -> pd.DataFrame:
+def _probe_code(cfg: TushareBarsConfig) -> str:
+    code = os.getenv(cfg.probe_code_env, "").strip()
+    return code or "000001.SZ"
+
+
+def _assert_tushare_ok(cfg: TushareBarsConfig, trade_date: str) -> None:
     """
-    Parse Tushare-like json:
-      {"code":0,"msg":"","data":{"fields":[...]/"a,b,c","items":[[...],...]}}
+    Quick health-check:
+    - token is present
+    - http url is present
+    - gateway responds and returns non-empty daily for a probe code on given trade_date
+
+    trade_date supports both YYYYMMDD and YYYY-MM-DD.
     """
-    code = obj.get("code", 0)
-    msg = obj.get("msg", "")
-
-    if isinstance(code, str) and code.isdigit():
-        code = int(code)
-
-    if code not in (0, None):
-        raise RuntimeError(f"Tushare网关返回错误：api={api_name} code={code} msg={msg} url={used_url}")
-
-    data = obj.get("data") or {}
-    fields = _to_cols(data.get("fields"))
-    items = data.get("items") or []
-
-    if not fields and items:
-        # Sometimes gateways return list[dict]
-        if isinstance(items[0], dict):
-            return pd.DataFrame(items)
-
-    if not fields:
-        # no fields -> empty
-        return pd.DataFrame()
-
-    if not isinstance(items, list):
-        return pd.DataFrame()
-
-    # items: list[list]
-    try:
-        return pd.DataFrame(items, columns=fields)
-    except Exception:
-        # last resort: let pandas infer
-        return pd.DataFrame(items)
-
-
-def _http_post_json(url: str, payload: Dict[str, Any], timeout_sec: int) -> Tuple[int, str, str]:
-    """
-    Return (status_code, content_type, text).
-    """
-    import requests  # local import to keep deps minimal
-
-    r = requests.post(url, json=payload, timeout=timeout_sec)
-    return r.status_code, (r.headers.get("content-type") or ""), r.text
-
-
-def _gateway_query(
-    http_url: str,
-    token: str,
-    api_name: str,
-    params: Dict[str, Any],
-    fields: str = "",
-    timeout_sec: int = 30,
-) -> Tuple[pd.DataFrame, str]:
-    """
-    Support two common third-party gateway styles:
-
-    A) Per-api endpoint (tushare>=some versions):
-       POST {http_url.rstrip('/')}/{api_name}
-
-    B) Single endpoint (many private gateways / old tutorials):
-       POST {http_url.rstrip('/')} with {"api_name": "...", ...} in json
-
-    We try A first; if 404, fallback to B.
-    Return (df, used_url).
-    """
-    base = http_url.rstrip("/")
-    payload = {"api_name": api_name, "token": token, "params": params, "fields": fields}
-
-    # Try A: /{api_name}
-    url_a = f"{base}/{api_name}"
-    status, ctype, text = _http_post_json(url_a, payload, timeout_sec)
-
-    if status == 404:
-        # Try B: single endpoint
-        url_b = base
-        status, ctype, text = _http_post_json(url_b, payload, timeout_sec)
-        used_url = url_b
-    else:
-        used_url = url_a
-
-    if status != 200:
-        snippet = (text or "")[:500].replace("\n", " ")
-        raise RuntimeError(f"Tushare网关HTTP异常：status={status} url={used_url} body={snippet}")
-
-    # Expect JSON
-    try:
-        obj = json.loads(text)
-    except Exception:
-        snippet = (text or "")[:500].replace("\n", " ")
-        raise RuntimeError(f"Tushare网关返回非JSON：url={used_url} content_type={ctype} body={snippet}")
-
-    df = _parse_tushare_json(obj, api_name=api_name, used_url=used_url)
-    return df, used_url
-
-
-def health_check(trade_date: str, cfg: Optional[TushareBarsConfig] = None) -> bool:
-    """
-    Online check for third-party Tushare gateways.
-
-    We check `daily(trade_date=...)` because it's required for building daily_bars.csv.
-
-    It raises RuntimeError with a readable message when the check fails.
-    """
-    cfg = cfg or TushareBarsConfig()
     token = _require_token(cfg)
-    http_url = os.getenv(cfg.http_url_env, "").strip()
-    if not http_url:
-        raise RuntimeError(f"Missing {cfg.http_url_env}. Please set it in .env or in UI settings.")
-    trade_date_norm = normalize_trade_date(trade_date, sep="")
+    url = _require_http_url(cfg)
 
-    # Probe code is optional for daily (trade_date). Keep for future usage.
-    _ = os.getenv(cfg.probe_code_env, "").strip() or "000001.SZ"
+    # normalize to YYYYMMDD for API
+    td_api = normalize_trade_date(trade_date, sep="")
+    if len(td_api) != 8 or not td_api.isdigit():
+        raise ValueError(f"trade_date 格式错误，应为 YYYYMMDD 或 YYYY-MM-DD, got={trade_date!r}")
 
-    # Some users may input non-trading-day; we try backward a few days.
-    try:
-        dt = datetime.datetime.strptime(normalize_trade_date(trade_date, sep=""), "%Y%m%d")
-    except Exception:
-        raise RuntimeError("trade_date 格式错误，应为 YYYYMMDD，例如 20251225")
-
-    last_err: Optional[Exception] = None
-    for back in [0, 1, 2, 3, 4, 5, 7, 10]:
-        td = (dt - datetime.timedelta(days=back)).strftime("%Y%m%d")
-        try:
-            df, used = _gateway_query(
-                http_url=http_url,
-                token=token,
-                api_name="daily",
-                params={"trade_date": td},
-                fields="ts_code,trade_date,close",
-                timeout_sec=cfg.timeout_sec,
-            )
-            if df is not None and len(df) > 0:
-                return True
-        except Exception as e:
-            last_err = e
-
-    raise RuntimeError(
-        "Tushare 连接失败：daily(trade_date=...) 仍然无法取到数据。\n"
-        f"最后一次错误：{last_err}\n"
-        "请重点检查：\n"
-        "1) 第三方网关地址是否正确（常见：要不要带 /dataapi）；\n"
-        "2) 网关是否支持 /{api_name} 这种路径；若不支持，本模块会自动退回单端点模式；\n"
-        "3) Token 是否有效/是否被封；\n"
-        "4) trade_date 是否为交易日 / 网关是否更新到该日期。"
+    # do a tiny probe request
+    code = _probe_code(cfg)
+    df = gateway_query(
+        "daily",
+        params={"trade_date": td_api, "ts_code": code},
+        csv_path=Path("bridge/outbox") / f"probe_daily_{code.replace('.', '_')}_{td_api}.csv",
     )
+    if df.empty:
+        raise RuntimeError(f"Tushare gateway probe returned empty for ts_code={code}, trade_date={td_api}. "
+                           f"Please check token/url or the date is a valid trade day. token={token[:6]}*** url={url}")
+
+
+def build_market_daily_bars_csv(trade_date: str, out_csv_path: str | Path, cfg: Optional[TushareBarsConfig] = None) -> Path:
+    """
+    Build market-wide daily bars snapshot for a trade day.
+
+    This is a convenience wrapper that calls update_daily_bars_csv().
+    """
+    return update_daily_bars_csv(trade_date=trade_date, out_csv_path=out_csv_path, cfg=cfg)
 
 
 def update_daily_bars_csv(
@@ -197,92 +84,56 @@ def update_daily_bars_csv(
     cfg: Optional[TushareBarsConfig] = None,
 ) -> Path:
     """
-    Build daily_bars.csv used by V1.5 from Tushare.
+    拉取某个交易日的日线数据，并写入/更新 bars CSV。
 
-    - Works with third-party gateways (per-api endpoint or single endpoint).
-    - Tolerates missing daily_basic (fills NaN).
+    - trade_date 支持两种格式：YYYYMMDD / YYYY-MM-DD
+    - 调用 tushare 接口时使用 YYYYMMDD（无分隔符）
+    - 写出的 CSV 统一使用 YYYY-MM-DD（方便下游稳定处理）
     """
-    cfg = cfg or TushareBarsConfig()
-    token = _require_token(cfg)
-    http_url = os.getenv(cfg.http_url_env, "").strip()
-    if not http_url:
-        raise RuntimeError(f"Missing {cfg.http_url_env}. Please set it in .env or in UI settings.")
+    if cfg is None:
+        cfg = TushareBarsConfig()
 
-    # 1) base universe info
-    basic, _ = _gateway_query(
-        http_url=http_url,
-        token=token,
-        api_name="stock_basic",
-        params={"exchange": "", "list_status": "L"},
-        fields="ts_code,name,industry,market",
-        timeout_sec=cfg.timeout_sec,
-    )
-    if basic is None or len(basic) == 0:
-        raise RuntimeError("Tushare 返回空数据：stock_basic 为空（请检查 Token / HTTP URL / 网关可用性）")
-    basic["ts_code"] = basic["ts_code"].astype(str)
+    # Normalize trade_date: API 用 YYYYMMDD；输出/落盘用 YYYY-MM-DD
+    trade_date_api = normalize_trade_date(trade_date, sep="")
+    trade_date_norm = normalize_trade_date(trade_date, sep="-")
 
-    # 2) daily bars
-    daily, _ = _gateway_query(
-        http_url=http_url,
-        token=token,
-        api_name="daily",
-        params={"trade_date": trade_date_norm},
-        fields="ts_code,trade_date,open,high,low,close,pre_close,change,pct_chg,vol,amount",
-        timeout_sec=cfg.timeout_sec,
-    )
-    if daily is None or len(daily) == 0:
-        raise RuntimeError(
-            "Tushare 返回空数据：daily 为空。\n"
-            "可能原因：trade_date 非交易日 / 网关数据缺失 / 权限不足 / 路由不兼容。"
-        )
-    daily["ts_code"] = daily["ts_code"].astype(str)
-    if "trade_date" in daily.columns:
-        daily["trade_date"] = daily["trade_date"].apply(normalize_trade_date)
+    out_csv_path = Path(out_csv_path)
+    out_csv_path.parent.mkdir(parents=True, exist_ok=True)
 
-    # 3) daily basic (optional)
-    # NOTE: mv fields in Tushare daily_basic are often in "万元".
-    # We will auto-normalize to RMB in step (5) below.
-    daily_basic_cols = [
+    # download to outbox first
+    outbox = Path("bridge/outbox")
+    outbox.mkdir(parents=True, exist_ok=True)
+
+    # 1) daily（日线 OHLCV + amount 等）
+    tmp_daily = outbox / f"tushare_daily_{trade_date_api}.csv"
+    params_daily = {"trade_date": trade_date_api}
+    df_daily = gateway_query("daily", params=params_daily, csv_path=tmp_daily)
+
+    # 2) daily_basic（流通市值/换手等）
+    tmp_basic = outbox / f"tushare_daily_basic_{trade_date_api}.csv"
+    params_basic = {"trade_date": trade_date_api}
+    df_basic = gateway_query("daily_basic", params=params_basic, csv_path=tmp_basic)
+
+    if df_daily.empty:
+        raise RuntimeError(f"tushare daily returned empty for trade_date={trade_date_api}")
+
+    # Normalize trade_date columns returned by API (通常是 int/str 的 YYYYMMDD)
+    def _norm_td(v: Any) -> str:
+        return normalize_trade_date(str(v), sep="-")
+
+    if "trade_date" in df_daily.columns:
+        df_daily["trade_date"] = df_daily["trade_date"].apply(_norm_td)
+    if "trade_date" in df_basic.columns:
+        df_basic["trade_date"] = df_basic["trade_date"].apply(_norm_td)
+
+    # Keep only the target day (defensive)
+    df_daily = df_daily[df_daily["trade_date"] == trade_date_norm].copy()
+    df_basic = df_basic[df_basic["trade_date"] == trade_date_norm].copy()
+
+    # columns keep
+    cols_daily_keep = [
         "ts_code",
         "trade_date",
-        "turnover_rate",
-        "circ_mv",
-        "total_mv",
-        "volume_ratio",
-        "pe_ttm",
-        "pb",
-    ]
-    try:
-        daily_basic, _ = _gateway_query(
-            http_url=http_url,
-            token=token,
-            api_name="daily_basic",
-            params={"trade_date": trade_date_norm},
-            fields=",".join(daily_basic_cols),
-            timeout_sec=cfg.timeout_sec,
-        )
-        if daily_basic is None or len(daily_basic) == 0:
-            daily_basic = pd.DataFrame(columns=daily_basic_cols)
-    except Exception:
-        # Some gateways don't expose daily_basic; that's ok
-        daily_basic = pd.DataFrame(columns=daily_basic_cols)
-
-    if "ts_code" in daily_basic.columns:
-        daily_basic["ts_code"] = daily_basic["ts_code"].astype(str)
-    if "trade_date" in daily_basic.columns:
-        daily_basic["trade_date"] = daily_basic["trade_date"].apply(normalize_trade_date)
-
-    # 4) merge
-    df = daily.merge(basic, on="ts_code", how="left")
-    if len(daily_basic) > 0:
-        df = df.merge(daily_basic, on=["ts_code", "trade_date"], how="left")
-    else:
-        for col in daily_basic_cols:
-            if col not in df.columns:
-                df[col] = pd.NA
-
-    # 5) normalize numeric
-    for col in [
         "open",
         "high",
         "low",
@@ -292,63 +143,112 @@ def update_daily_bars_csv(
         "pct_chg",
         "vol",
         "amount",
+    ]
+    cols_basic_keep = [
+        "ts_code",
+        "trade_date",
         "turnover_rate",
-        "circ_mv",
-        "total_mv",
+        "turnover_rate_f",
         "volume_ratio",
+        "pe",
         "pe_ttm",
         "pb",
-    ]:
-        if col in df.columns:
-            df[col] = pd.to_numeric(df[col], errors="coerce")
+        "ps",
+        "ps_ttm",
+        "dv_ratio",
+        "dv_ttm",
+        "total_share",
+        "float_share",
+        "free_share",
+        "total_mv",
+        "circ_mv",
+    ]
 
-    # 6) Normalize market cap units.
-    # Many Tushare endpoints return mv in "万元" (1e4 RMB).
-    # We auto-detect by median magnitude to avoid double scaling on custom gateways.
-    def _norm_mv(s: pd.Series) -> pd.Series:
-        try:
-            med = float(pd.to_numeric(s, errors="coerce").dropna().median())
-        except Exception:
-            med = 0.0
-        # If median < 1e9, it's very likely in 万元; convert to RMB.
-        if med and med < 1e9:
-            return pd.to_numeric(s, errors="coerce") * 1e4
-        return pd.to_numeric(s, errors="coerce")
+    # Some gateways may not return all columns; keep intersection
+    cols_daily_keep = [c for c in cols_daily_keep if c in df_daily.columns]
+    cols_basic_keep = [c for c in cols_basic_keep if c in df_basic.columns]
 
-    if "circ_mv" in df.columns:
-        df["circ_mv"] = _norm_mv(df["circ_mv"])
-    if "total_mv" in df.columns:
-        df["total_mv"] = _norm_mv(df["total_mv"])
+    df_daily = df_daily[cols_daily_keep].copy()
+    df_basic = df_basic[cols_basic_keep].copy()
 
-    out = Path(out_csv_path)
-    out.parent.mkdir(parents=True, exist_ok=True)
-    df.to_csv(out, index=False, encoding="utf-8-sig")  # Excel friendly
-    return out
+    # Merge daily + basic
+    if not df_basic.empty:
+        df = pd.merge(df_daily, df_basic, on=["ts_code", "trade_date"], how="left")
+    else:
+        df = df_daily
+
+    # Ensure trade_date is consistent
+    df["trade_date"] = trade_date_norm
+
+    # If out_csv already exists, update the specific day; else write new
+    if out_csv_path.exists():
+        old = pd.read_csv(out_csv_path, dtype={"ts_code": str})
+        if "trade_date" not in old.columns:
+            raise RuntimeError(f"existing bars file missing trade_date: {out_csv_path}")
+
+        # normalize old trade_date
+        old["trade_date"] = old["trade_date"].astype(str).apply(_norm_td)
+        old = old[old["trade_date"] != trade_date_norm]
+
+        new_all = pd.concat([old, df], ignore_index=True)
+    else:
+        new_all = df
+
+    # Sort for stable diffs
+    sort_cols = [c for c in ["trade_date", "ts_code"] if c in new_all.columns]
+    if sort_cols:
+        new_all = new_all.sort_values(sort_cols).reset_index(drop=True)
+
+    new_all.to_csv(out_csv_path, index=False, encoding="utf-8")
+
+    return out_csv_path
 
 
-def gateway_query(
-    api_name: str,
-    params: Dict[str, Any],
-    fields: str = "",
-    cfg: Optional[TushareBarsConfig] = None,
-) -> pd.DataFrame:
-    """Generic query through third-party Tushare gateway.
-
-    This is used by higher-level modules (news, extra factors...) and shares the same
-    routing fallback logic as `update_daily_bars_csv`.
+def gateway_query(api_name: str, params: dict, csv_path: Path) -> pd.DataFrame:
     """
-    cfg = cfg or TushareBarsConfig()
-    token = _require_token(cfg)
-    http_url = os.getenv(cfg.http_url_env, "").strip()
-    if not http_url:
-        raise RuntimeError(f"Missing {cfg.http_url_env}. Please set it in .env or in UI settings.")
+    Query tushare (through a third-party gateway) and cache to csv_path.
 
-    df, _ = _gateway_query(
-        http_url=http_url,
-        token=token,
-        api_name=api_name,
-        params=params,
-        fields=fields,
-        timeout_sec=cfg.timeout_sec,
-    )
+    Environment variables:
+    - TUSHARE_TOKEN: token
+    - TUSHARE_HTTP_URL: base url like http://xxxx/dataapi
+    """
+    token = _require_token(TushareBarsConfig())
+    base_url = _require_http_url(TushareBarsConfig())
+    url = f"{base_url}/{api_name}"
+
+    payload = {"api_name": api_name, "token": token, "params": params}
+
+    # ensure parent dir
+    csv_path.parent.mkdir(parents=True, exist_ok=True)
+
+    # if already exists and non-empty, load it
+    if csv_path.exists() and csv_path.stat().st_size > 0:
+        try:
+            return pd.read_csv(csv_path, dtype={"ts_code": str})
+        except Exception:
+            pass
+
+    import requests
+
+    r = requests.post(url, json=payload, timeout=TushareBarsConfig().timeout_sec)
+    r.raise_for_status()
+
+    data = r.json()
+    if isinstance(data, dict) and "data" in data:
+        raw = data["data"]
+    else:
+        raw = data
+
+    if raw is None:
+        df = pd.DataFrame()
+    elif isinstance(raw, dict) and "items" in raw and "fields" in raw:
+        df = pd.DataFrame(raw["items"], columns=raw["fields"])
+    elif isinstance(raw, list):
+        df = pd.DataFrame(raw)
+    else:
+        # fall back: try parse as list-of-dict or dict-of-list
+        df = pd.DataFrame(raw)
+
+    # persist
+    df.to_csv(csv_path, index=False, encoding="utf-8")
     return df
