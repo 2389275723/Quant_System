@@ -45,3 +45,12 @@ _trash_*/
 
 research/
 bridge/outbox/orders.csv
+
+# runtime artifacts
+bridge/outbox/
+reports/version_audit_*.md
+reports/version_audit_*.json
+logs/
+runs/
+research/runs/
+
