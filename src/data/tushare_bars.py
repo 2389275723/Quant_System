@@ -252,3 +252,46 @@ def gateway_query(api_name: str, params: dict, csv_path: Path) -> pd.DataFrame:
     # persist
     df.to_csv(csv_path, index=False, encoding="utf-8")
     return df
+def health_check(cfg: "TushareBarsConfig | None" = None, trade_date: "str | None" = None) -> dict:
+    """
+    Lightweight gateway check:
+    - verifies token/http_url works
+    - tries to query 'daily' with a small date range (trade_date or recent dates)
+
+    Returns: {"ok": bool, "trade_date": "...", "rows": int, "err": str?}
+    """
+    cfg = cfg or TushareBarsConfig()
+
+    try:
+        _ = _require_token(cfg)
+    except Exception as e:
+        return {"ok": False, "err": f"missing/invalid token: {e}"}
+
+    candidates: list[str] = []
+    if trade_date:
+        candidates.append(str(trade_date))
+
+    # try last few days (avoid depending on trade calendar here)
+    import datetime as _dt
+    today = _dt.date.today()
+    for i in range(0, 7):
+        candidates.append((today - _dt.timedelta(days=i)).strftime("%Y-%m-%d"))
+
+    last_err: str | None = None
+    for td in candidates:
+        try:
+            td_norm = normalize_trade_date(td, sep="")  # -> YYYYMMDD
+            df = gateway_query(
+                "daily",
+                params={"trade_date": td_norm},
+                fields="ts_code,trade_date,close",
+                cfg=cfg,
+            )
+            # df is expected to be a pandas DataFrame
+            if df is not None and getattr(df, "empty", True) is False:
+                return {"ok": True, "trade_date": td_norm, "rows": int(len(df))}
+        except Exception as e:
+            last_err = str(e)
+
+    return {"ok": False, "err": f"tushare gateway query failed (last_err={last_err})"}
+
