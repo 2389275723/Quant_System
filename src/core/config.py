@@ -6,6 +6,18 @@ from typing import Any, Dict
 
 import yaml
 from dotenv import load_dotenv
+from pathlib import Path
+
+REPO_ROOT = Path(__file__).resolve().parents[2]  # <repo>/src/core/config.py -> parents[2] = <repo>
+
+def resolve_path(p: str | Path, base: Path | None = None) -> Path:
+    p = Path(p).expanduser()
+    if p.is_absolute():
+        return p
+    if base is None:
+        base = REPO_ROOT
+    return (base / p).resolve()
+
 
 
 def load_cfg(cfg_path: str | Path) -> Dict[str, Any]:
