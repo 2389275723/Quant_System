@@ -56,6 +56,7 @@ from src.storage.upsert import upsert_df
 from src.engine.strength import strength_gate
 from src.bridge.gates import kill_switch, fat_finger_check
 from src.bridge.orders import export_orders_csv
+from src.bridge.reconciliation import check_reconcile_status, RECONCILE_STATUS_PATH
 
 
 def _set_state(conn: sqlite3.Connection, k: str, v: str) -> None:
@@ -69,6 +70,15 @@ def _set_state(conn: sqlite3.Connection, k: str, v: str) -> None:
 def _latest_trade_date(conn: sqlite3.Connection) -> Optional[str]:
     row = conn.execute("SELECT MAX(trade_date) AS d FROM picks_daily").fetchone()
     return row["d"] if row and row["d"] else None
+
+
+def _enforce_reconcile_gate(trade_date: str) -> None:
+    ok, reason, _ = check_reconcile_status(trade_date, status_path=RECONCILE_STATUS_PATH)
+    if ok:
+        return
+    msg = f"RECONCILE_STATUS_BLOCK: {reason} (path={RECONCILE_STATUS_PATH})"
+    print(msg)
+    raise RuntimeError(msg)
 
 
 def run_morning_job(cfg_path: str = "config/config.yaml", trade_date: Optional[str] = None) -> Dict[str, Any]:
@@ -98,6 +108,8 @@ def run_morning_job(cfg_path: str = "config/config.yaml", trade_date: Optional[s
         if trade_date is None:
             # default to latest picks date, else today
             trade_date = _latest_trade_date(conn) or today_cn()
+
+        _enforce_reconcile_gate(trade_date)
 
         rank_col = safe_rank_column(conn)
 
