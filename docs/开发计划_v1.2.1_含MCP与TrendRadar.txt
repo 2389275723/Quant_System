@@ -1,0 +1,453 @@
+0) 目标与硬边界
+0.1 系统目标
+
+本地 Python：负责数据治理、选股、双头模型推理、风险闸门、出单文件、监控、归因、报告
+
+PTrade：负责真实下单、真实成交、真实持仓与资产
+
+两端通过文件协议 + 每日对账闭环，达到：可复盘、可执行、可长期稳定跑
+
+0.2 三条铁律
+
+Snapshot Immutable（append-only）：snapshot_raw 只追加不覆盖
+
+禁止未来数据泄漏：D+1 的 open/up_limit/low_limit 等只进 labels/exec，不进 D 日特征表
+
+LLM 不算数：Python 先算所有统计，LLM 只基于 FactPack 输出解释/建议（结构化）
+
+1) 环境与运行形态（建议）
+
+Windows：开发/调参/看报表（迭代快）
+
+Ubuntu / Docker：生产跑盘（定时与环境稳定）
+
+推荐：Windows 开发 + Ubuntu/Docker 生产
+V1 先在 Windows 跑通闭环，稳定后迁移生产环境。
+
+2) 版本路线图（按优先级）
+V1（必须具备：可信 + 能执行 + 抗真实摩擦）
+
+数据源治理（第三方 Tushare 规则 + 限流/断路器/缓存 + 容灾）
+
+snapshot→因子→预处理→规则分→TopN
+
+标签（Open D+1 → Close D+h）+ 一字板买不进权重为 0
+
+组合账本（Buffer Zone + 成本 + 卖不出锁仓 + T+1 资金结算）
+
+监控（IC_IR 去噪 + 成本拖累 + 强度监控 + 分歧监控）
+
+Night/Morning 两段作业（晨间定价解决集合竞价黑障区）
+
+文件协议 + PTrade Dumb Executor
+
+每日对账 + 资产强校验
+
+STOP Kill Switch + Fat-Finger 闸门 + Smoke Test
+
+交易日历 trade_cal 判断（每天都跑，由代码判断是否交易日）
+
+浮点比较容忍（isclose/round），避免对账误报
+
+V1.1 / V1.2（增强）
+
+CorporateActionHandler（除权除息/送转/分红）
+
+UniversePolicy（300/688 exclude/penalty/shadow）
+
+SQLite 热 + Parquet 冷（按日分区）
+
+snapshot_corrections + DataView（纠错补丁）
+
+IndexSnapshot（指数快照）
+
+AttributionBuckets（归因分类）
+
+FactorRegistry + 自动 schema 迁移（因子动物园可控）
+
+ResearchLoader / Webhook / HTML 晨报 / reset_db
+
+V1.5（自适应开关）
+
+RegimeEngine（MA20 + 跌幅熔断 + 轻权重切换）
+
+Volatility Damper
+
+NewsSnapshot（若新闻入分则必须快照化）
+
+强度门控（Ranking Trap：TopN 强度低则降仓/禁新开）
+
+3) 数据源层：第三方 Tushare（DataApi Proxy）治理规范（必须落地）
+3.1 DataSourcePolicy（统一数据源策略）
+
+模式：
+
+tushare_proxy（第三方 DataApi：自定义 http_url + token 注入）
+
+tushare_official
+
+manual_csv
+
+cache_only
+
+自动降级：
+
+proxy 不可用/失败过多 → 断路器 open → 自动 cache_only
+
+允许 manual_csv 兜底：至少保证“能减仓/能生成报告”
+
+3.2 ClientFactory（把“注入规则”配置化）
+
+token 使用环境变量（如 TUSHARE_TOKEN）
+
+http_url 来自 cfg（你的代理地址）
+
+设置：timeout / retry / backoff / rate_limit
+
+3.3 限流 + 批量 + 增量 + 断路器
+
+RateLimiter：全局 RPS + 分接口 RPS
+
+增量拉取：按 trade_date 拉 daily/daily_basic/adj_factor 等
+
+Circuit Breaker：连续失败 N 次进入 open（期间不再打接口，直接 cache_only）
+
+缓存优先：SQLite/Parquet 有就不调用远端
+
+3.4 审计字段（落库必带）
+
+soure_name, source_url(mask), ingest_time, run_id, strategy_id
+可选：payload_hash（定位“同日数据变更”）
+
+4) “交易日历陷阱”（隐形刺客 #1）——必须写死
+4.1 交易日判断原则
+
+定时任务：每天都跑（不要依赖“周一到周五”）
+Pipeline 启动第一步：
+
+if not is_trade_day(today_cn): log_and_exit("NOT_TRADE_DAY")
+
+4.2 trade_cal 的使用
+
+数据源：Tushare trade_cal（建议缓存到本地）
+
+Night_Job：
+
+如果今天非交易日：退出
+
+如果今天交易日但数据未就绪：优雅退出 DATA_NOT_READY
+
+Morning_Job：
+
+仅在交易日运行，否则退出
+
+5) SQLite 浮点精度（隐形刺客 #2）——必须写死
+5.1 统一比较策略（对账/资产校验）
+
+禁止用 == 比较金额
+
+使用：
+
+math.isclose(a, b, rel_tol=1e-6, abs_tol=0.01)
+
+或对金额统一 round(x, 2) 后再比
+
+5.2 存储建议
+
+V1：金额写库前统一 round（cash/total_assets/market_value → 2 位小数）
+
+V1.2（可选终极稳态）：金额字段改用 整数分（cents）INTEGER 存储
+
+6) 模块总览（V1 最小完整闭环）
+6.1 核心模块
+
+DataSourcePolicy + ClientFactory
+
+TradingCalendar（trade_cal 缓存 + is_trade_day）
+
+DataAdapter（清洗、tradeable、异常检测、审计字段）
+
+SnapshotStore（snapshot_raw append-only）
+
+FilterEngine（硬过滤，输出 candidates）
+
+FactorEngine（向量化因子）
+
+PreprocessEngine（winsorize+rank_pct；并保留 raw/zscore 给强度监控）
+
+RuleScore（rule_score 主干兜底）
+
+DualHeadModelEngine（Alpha+Risk：DeepSeek-V3.2 + qwen3-max，批处理+上下文对齐）
+
+ScoreComposer（final_score 合成 + 风险门控）
+
+LabelEngine（Open D+1 → Close D+h；一字板 buyable 权重 0）
+
+PortfolioManager（Buffer+成本+锁仓+T+1 结算）
+
+MonitorEngine（IC_IR 去噪 + 成本拖累 + 强度 + 分歧）
+
+FactPackBuilder（Python 指标包）
+
+PTradeExporter / PTradeReceiver（Dumb Executor）
+
+ReconciliationEngine（每日对账）
+
+Gates（STOP / Fat-Finger / AssetCheck / SmokeTest）
+
+ExecutionLog（run_id/config_hash/model_version/prompt_hash 可追溯）
+
+7) 双头模型（Alpha + Risk）升级规范（必含 prob×severity）
+7.1 每只票输出协议（强制 JSON）
+
+alpha_score: float [-3,3]
+
+risk_prob: float [0,1]
+
+risk_severity: int [1..5]
+
+risk_flags: [enum...]
+
+confidence: float [0,1]
+
+7.2 风险动作规则（可配置）
+
+Veto：risk_severity >= 3 AND risk_prob > 0.3 → 剔除/候补替换
+
+Downweight：risk_severity <= 2 → weight *= (1 - k*risk_prob)
+
+其余 OK
+
+7.3 Context Alignment（两模型同一 market_context_snapshot）
+
+由 Python 生成客观 context：
+
+指数涨跌/波动（ZZ1000/HS300）
+
+市场广度（上涨家数/涨停/跌停）
+
+情绪（连板高度/炸板率，可选）
+
+策略体感（昨日 TopN 均值收益/胜率/踩一字板率/换手成本拖累）
+
+7.4 Disagreement（分歧）利用
+
+存 disagreement_alpha / disagreement_risk_prob / disagreement_severity
+
+Monitor 跟踪：分歧高是否对应更高 realized_vol/mdd
+
+后续可作为风险惩罚或入模特征（V1.5）
+
+8) 双模型推理：DeepSeek-V3.2 + qwen3-max（批处理 + 超时熔断）
+8.1 职责
+
+DeepSeek：Primary Scorer
+
+Qwen：Auditor / Second Opinion
+
+8.2 合成（保守）
+
+alpha_final = median(alpha_ds, alpha_qw)
+
+risk_prob_final = max(risk_prob_ds, risk_prob_qw)
+
+risk_sev_final = max(risk_sev_ds, risk_sev_qw)
+
+分歧过大或低置信度：标记 uncertain → 提升风险或 fallback 规则分
+
+8.3 批处理（Batching）
+
+Rule TopM=200
+
+10~20 只/批
+
+单日调用次数约 20~40（双模型），大幅降低延迟
+
+8.4 超时熔断（Night_Job 预算）
+
+night_model_budget_sec（如 1200s）
+
+超时立即降级：
+
+记录 degraded_reason=timeout
+
+当天出单走 pure_rule（最稳）
+
+9) 关键“实盘摩擦”护栏（全部写死）
+
+集合竞价黑障区：Night 选股、Morning 定价（不挂死价）
+
+部分成交叠加态：V1 禁日内资金复用（T+1 才可用）
+
+买不进：一字涨停 buyable=False → label 权重 0；执行侧候补替换
+
+卖不出：跌停/停牌锁仓，不释放现金
+
+依赖熵增：锁环境 + smoke test
+
+STOP Kill Switch：文件存在立即停止生成/执行订单
+
+Fat-Finger 闸门：单票上限、换手上限、黑名单、金额异常 → 拒绝出单
+
+资产强校验：Expected vs Real 偏差超阈值 → 阻断交易
+
+文件锁：tmp→rename 原子写；processed 防重复
+
+数据断供：manual/cache_only 保命模式（至少可减仓）
+
+10) 日常主流程（Night/Morning/Close）
+10.1 Night_Job（收盘后）
+
+TradingCalendar：非交易日退出
+
+DataSourcePolicy：proxy 健康检查/限流预算
+
+拉 daily/daily_basic/adj_factor（增量）→ DataAdapter 清洗
+
+snapshot_raw append-only 入库（含审计字段）
+
+因子→预处理→RuleScore→TopM
+
+双头模型（shadow/rerank）批处理推理，写 model_scores_daily（预算熔断）
+
+生成 plan 草案（不定价）
+
+10.2 Morning_Job（9:26）
+
+非交易日退出
+
+读缓存 + 读取竞价后参考价
+
+风险门控（Veto/Downweight）+ 候补替换
+
+定价生成 orders.csv
+
+STOP / Fat-Finger / AssetCheck 三道闸门
+
+原子写 orders.csv
+
+10.3 收盘后
+
+PTrade 导出 exec_report + real_positions
+
+Python 写 reconciliation_log（次日开跑前必须通过）
+
+11) 因子存储：宽表 vs 长表（Future Proofing）
+V1 选择：宽表（快、简单）
+
+factors_daily(date, code, f1, f2, ...)
+
+V1.1 增强：FactorRegistry + SchemaMigrator（推荐必做）
+
+因子注册表统一声明（name/dtype/category/status）
+
+启动时自动检测缺列并 ALTER TABLE ADD COLUMN
+
+废弃因子标记 deprecated，不再更新但保留字段
+
+长表（EAV）策略：不建议 V1 切
+
+可作为旁路分析存储（不影响线上算分）
+
+或把高维因子/训练集放到 Parquet（更适合训练）
+
+12) 配置规范（cfg.yaml，全部开关化）
+
+（沿用你现有那份 cfg 结构：data_source / trade_cal / model / portfolio / monitor / sanity / asset_check / execution）
+
+13) 最小开工顺序（强烈建议）
+
+M0：snapshot→factors→preprocess→rule_score→picks
+
+M1：labels（open→close + buyable）
+
+M2：portfolio（Buffer+成本+锁仓+T+1）
+
+M3：monitor + factpack + execution_log + WAL + 浮点 isclose 策略
+
+M4：Night/Morning + orders 协议 + dumb executor + 对账闭环 + trade_cal 判断
+
+M5：STOP + Fat-Finger + AssetCheck + smoke test
+
+M6：双头模型 shadow（batch+context+熔断）
+
+M7：开闸 rerank + risk gate
+
+M8：除权除息 + Parquet + Patch + Dashboard + Regime…
+
+14) 外部情报（TrendRadar）与 MCP 接入（可选增强）
+
+目标：把 Quant_System 的“数据/产物/作业”对外工具化（MCP），并引入上游舆情（TrendRadar）作为情报模块，但不破坏现有交易闭环。
+
+14.1 设计原则（强约束）
+- 插拔：不改动核心交易闭环即可启用/关闭（开关在 config.yaml）。
+- 可复现：任何外部情报要进入系统（特别是要“入分/入信号”）必须先做快照（append-only + 带 run_id/config_hash）。
+- LLM 不算数：LLM 只能“总结/归因/写报告”，不能直接计算收益/分数（仍遵守第 6 点约束）。
+- 默认只读：MCP 暴露的工具默认只读；涉及“写入/跑作业”的工具必须显式开关并做 allowlist。
+
+14.2 TrendRadar 接入方式（推荐“联邦式”，减少耦合）
+A. 联邦式（推荐）
+- TrendRadar 作为独立服务运行（Docker / GitHub Actions / 本地）。
+- Quant_System 只负责“读取 TrendRadar 的产物并快照入库”：
+  - 读取方式 1：读取 TrendRadar 输出目录里的 sqlite / json / html（或从远程存储 pull）。
+  - 读取方式 2：通过 TrendRadar 的 MCP Server，让上层 Agent 读取热点，再把“结构化结果”写回 Quant_System（见 14.5 的可选写入工具）。
+优点：不把爬虫脆弱性带进 Quant_System；TrendRadar 改版更新也不影响交易闭环。
+
+B. 内嵌式（备选）
+- Quant_System 直接拉取 TrendRadar 热榜（需要维护解析器，脆弱性更高）。
+- 仅建议在你非常确定要“单仓库一体化”时采用。
+
+14.3 数据落库（news_snapshot）
+新增表（建议 SQLite）：
+- news_hot_snapshot（append-only）
+  - id (pk)
+  - trade_date
+  - ts（采集时间）
+  - source/platform（如 cls/weibo/douyin…）
+  - keyword/topic（命中的关键词/题材词典）
+  - title
+  - url
+  - rank/hotness（如果有）
+  - raw_json（原始记录，便于追溯）
+  - run_id, config_hash（与现有作业对齐）
+
+聚合输出：
+- topic_heat（题材热度）= 在多平台命中 + 排名/热度加权 + 时间衰减
+- 先写进 market_ctx（只做上下文），等稳定后再进入 V1.5 的 “新闻入分” 逻辑（必须快照化）。
+
+14.4 Quant_System MCP Server（让多智能体“调用你”）
+建议提供的 MCP 暴露面（按风险分级）：
+- Resources（只读）
+  - factpack://latest?trade_date=YYYY-MM-DD
+  - market_ctx://latest?trade_date=...
+  - reconcile://status?trade_date=...
+  - orders://outbox?trade_date=...
+  - logs://job?run_id=...
+- Tools（默认只读 / 低风险）
+  - get_latest_picks(trade_date)
+  - get_factpack(trade_date)
+  - get_market_context(trade_date)
+  - get_reconcile_status(trade_date)
+- Tools（高风险，默认关闭，需要 MCP_ALLOW_WRITE=1 + allowlist）
+  - run_night_job(trade_date)
+  - run_morning_job(trade_date)
+  - ingest_trendradar_snapshot(days=1)
+
+运行形态建议：
+- 默认 stdio（适配 Claude Desktop / Cursor 等 MCP Client）。
+- 可选 http（给你自研的 multi-agent orchestrator 用）。
+
+14.5 最小落地顺序（建议按两步走）
+Step 1（先工具化，不改策略）：MCP 只读 + TrendRadar 快照入库
+- 先做 MCP Server（只读）→ 让 Agent 能读 factpack/market_ctx/reconcile。
+- 再做 TrendRadar ingest → 只写 news_hot_snapshot + market_ctx 扩展字段（不上分、不下单）。
+
+Step 2（再进入交易逻辑）：新闻入分 / 情绪因子
+- 等快照稳定后，按 V1.5 的 NewsSnapshot 规则把“新闻→信号”纳入 score（仍需可复现）。
+
+14.6 验收命令（与现有流程一致）
+- python -m compileall -q src
+- python scripts/tests/run_all.py
+- run_night_job.bat 2025-12-26 --cfg config\config.yaml
+- run_morning_job.bat 2025-12-26 --cfg config\config.yaml
+
