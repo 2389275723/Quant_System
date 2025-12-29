@@ -54,3 +54,4 @@ logs/
 runs/
 research/runs/
 
+.env
