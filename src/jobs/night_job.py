@@ -67,6 +67,7 @@ from src.engine.regime import detect_regime
 from src.engine.monitor import build_factpack
 from src.engine.models.dual_head import DualHeadModelEngine
 from src.news.market_ctx import build_market_context
+from src.bridge.reconciliation import write_reconcile_status
 
 
 def _set_state(conn: sqlite3.Connection, k: str, v: str) -> None:
@@ -351,7 +352,20 @@ def run_night_job(cfg_path: str = "config/config.yaml", trade_date: Optional[str
         )
         _set_state(conn, "phase", "IDLE")
         _set_state(conn, "last_night_ok", finished_at)
-        return {"ok": True, "run_id": run_id, "trade_date": trade_date, "config_hash": config_hash, "patch": NIGHT_JOB_PATCH}
+
+        try:
+            recon_status = write_reconcile_status(trade_date=trade_date, run_id=run_id)
+        except Exception as e:
+            raise RuntimeError(f"Failed to write reconcile_status.json: {e}") from e
+
+        return {
+            "ok": True,
+            "run_id": run_id,
+            "trade_date": trade_date,
+            "config_hash": config_hash,
+            "patch": NIGHT_JOB_PATCH,
+            "reconcile_status": recon_status,
+        }
 
     except Exception as e:
         finished_at = now_cn().isoformat(timespec="seconds")

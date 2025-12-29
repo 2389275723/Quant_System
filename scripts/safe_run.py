@@ -9,6 +9,11 @@ import subprocess
 import csv
 
 ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from src.bridge.reconciliation import check_reconcile_status, RECONCILE_STATUS_PATH
+
 MAIN = ROOT / "main.py"
 
 def _load_trade_cal(trade_cal_csv: Path) -> dict[str, bool]:
@@ -56,31 +61,12 @@ def ensure_trade_day(trade_date: str) -> None:
         print("NOT_TRADE_DAY")
         raise SystemExit(2)
 
-def ensure_reconcile_ok() -> None:
-    status_files = [
-        ROOT / "logs" / "reconcile_status.json",
-        ROOT / "data" / "manual" / "reconcile_status.json",
-        ROOT / "data" / "reconcile_status.json",
-    ]
-    sf = next((p for p in status_files if p.exists()), None)
-    if sf is None:
+def ensure_reconcile_ok(trade_date: str) -> None:
+    ok, reason, _ = check_reconcile_status(trade_date, status_path=RECONCILE_STATUS_PATH)
+    if ok:
         return
-
-    try:
-        data = json.loads(sf.read_text(encoding="utf-8", errors="replace"))
-    except Exception:
-        print(f"RECONCILE_STATUS_BAD_JSON: {sf}")
-        raise SystemExit(3)
-
-    status = str(data.get("status") or data.get("reconcile_status") or "").upper().strip()
-    ok = data.get("ok")
-
-    if ok is True:
-        return
-    if status in ("OK", "PASS", "PASSED", "SUCCESS", "DONE"):
-        return
-
-    print("RECONCILE_FAIL")
+    msg = f"RECONCILE_STATUS_BLOCK: {reason} (path={RECONCILE_STATUS_PATH})"
+    print(msg)
     raise SystemExit(3)
 
 def main() -> int:
@@ -90,13 +76,15 @@ def main() -> int:
     parser.add_argument("--cfg", default=None, dest="cfg")
     args, rest = parser.parse_known_args()
 
-    ensure_trade_day(args.trade_date)
-    ensure_reconcile_ok()
+    trade_date = args.trade_date
+    ensure_trade_day(trade_date)
+    if args.job == "morning":
+        ensure_reconcile_ok(trade_date)
 
     cmd = [sys.executable, str(MAIN)]
     if args.cfg:
         cmd += ["--cfg", args.cfg]
-    cmd += [args.job, "--trade-date", args.trade_date]
+    cmd += [args.job, "--trade-date", trade_date]
     cmd += rest
 
     p = subprocess.run(cmd, cwd=str(ROOT))
