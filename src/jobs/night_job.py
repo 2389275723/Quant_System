@@ -1,6 +1,50 @@
 from __future__ import annotations
 
+
+# --- AUTO_PATCH_FILLNA_SCALAR_GUARD_2025_12_29
+def _num_scalar(x, fill=0.0):
+    """Scalar-safe numeric conversion (no .fillna on scalars)."""
+    import pandas as pd
+    y = pd.to_numeric(x, errors="coerce")
+    try:
+        return fill if pd.isna(y) else float(y)
+    except Exception:
+        return fill
+
+
+def _num_col(df, col, fill=0.0, default=None):
+    """Series-safe numeric column getter.
+
+    If df has the column: returns numeric Series with .fillna(fill)
+    If missing: returns constant Series aligned to df.index (default if provided else fill)
+    """
+    import pandas as pd
+    if hasattr(df, "columns") and hasattr(df, "index") and col in getattr(df, "columns"):
+        return pd.to_numeric(df[col], errors="coerce").fillna(fill)
+
+    idx = getattr(df, "index", None)
+    const = fill if default is None else default
+    if idx is None:
+        return pd.Series([const], dtype="float64")
+    return pd.Series(const, index=idx, dtype="float64")
+
+
+def _num_any(x, fill=0.0):
+    """Generic numeric conversion that works for Series or scalar."""
+    import pandas as pd
+    y = pd.to_numeric(x, errors="coerce")
+    if hasattr(y, "fillna"):
+        return y.fillna(fill)
+    try:
+        return fill if pd.isna(y) else float(y)
+    except Exception:
+        return fill
+# --- END AUTO_PATCH_FILLNA_SCALAR_GUARD_2025_12_29
+
+NIGHT_JOB_PATCH = "fillna_v3_20251229"
+
 import json
+import traceback
 import sqlite3
 from typing import Any, Dict, Optional
 
@@ -173,12 +217,24 @@ def run_night_job(cfg_path: str = "config/config.yaml", trade_date: Optional[str
             w_alpha = float(get(model_cfg, "rerank_weight_alpha", 0.35))
             w_risk = float(get(model_cfg, "rerank_weight_risk", 0.50))
             w_sev = float(get(model_cfg, "rerank_weight_sev", 0.15))
+
+            def _num_col(df: pd.DataFrame, col: str, fill: float = 0.0) -> pd.Series:
+                """Return numeric Series for df[col]; if missing -> fill series aligned to df.index."""
+                if col in df.columns:
+                    return _num_any(df[col], fill)
+                return pd.Series(fill, index=df.index, dtype="float64")
+
+            base_final = _num_any(model_out["final_score"], 0.0)
+            alpha_final = _num_col(model_out, "alpha_final", 0.0)
+            risk_prob_final = _num_col(model_out, "risk_prob_final", 0.0)
+            risk_sev_final = _num_col(model_out, "risk_sev_final", 0.0)
+
             # base final_score + alpha - risk components
             model_out["final_score_ai"] = (
-                model_out["final_score"].astype(float)
-                + w_alpha * pd.to_numeric(model_out.get("alpha_final"), errors="coerce").fillna(0.0)
-                - w_risk * pd.to_numeric(model_out.get("risk_prob_final"), errors="coerce").fillna(0.0)
-                - w_sev * pd.to_numeric(model_out.get("risk_sev_final"), errors="coerce").fillna(0.0)
+                base_final
+                + w_alpha * alpha_final
+                - w_risk * risk_prob_final
+                - w_sev * risk_sev_final
             )
             model_out = model_out.sort_values("final_score_ai", ascending=False).reset_index(drop=True)
             model_out["rank_ai"] = model_out.index + 1
@@ -187,6 +243,17 @@ def run_night_job(cfg_path: str = "config/config.yaml", trade_date: Optional[str
             model_out["rank_ai"] = None
 
         # Save model outputs (even in shadow mode) for UI consistency
+
+        # Ensure optional model columns exist (avoid KeyError when models are disabled/partial)
+        _need_cols = [
+            "alpha_ds","risk_prob_ds","risk_sev_ds","conf_ds","comment_ds",
+            "alpha_qw","risk_prob_qw","risk_sev_qw","conf_qw","comment_qw",
+            "alpha_final","risk_prob_final","risk_sev_final","disagreement","action",
+        ]
+        for _c in _need_cols:
+            if _c not in model_out.columns:
+                model_out[_c] = None
+
         model_rows = model_out[[
             "ts_code",
             "alpha_ds","risk_prob_ds","risk_sev_ds","conf_ds","comment_ds",
@@ -284,7 +351,7 @@ def run_night_job(cfg_path: str = "config/config.yaml", trade_date: Optional[str
         )
         _set_state(conn, "phase", "IDLE")
         _set_state(conn, "last_night_ok", finished_at)
-        return {"ok": True, "run_id": run_id, "trade_date": trade_date, "config_hash": config_hash}
+        return {"ok": True, "run_id": run_id, "trade_date": trade_date, "config_hash": config_hash, "patch": NIGHT_JOB_PATCH}
 
     except Exception as e:
         finished_at = now_cn().isoformat(timespec="seconds")
@@ -294,6 +361,6 @@ def run_night_job(cfg_path: str = "config/config.yaml", trade_date: Optional[str
         )
         _set_state(conn, "phase", "IDLE")
         _set_state(conn, "last_error", str(e))
-        return {"ok": False, "run_id": run_id, "trade_date": trade_date, "error": str(e)}
+        return {"ok": False, "run_id": run_id, "trade_date": trade_date, "error": str(e), "patch": NIGHT_JOB_PATCH, "traceback": traceback.format_exc()}
     finally:
         conn.close()
