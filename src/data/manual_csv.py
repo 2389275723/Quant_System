@@ -20,7 +20,7 @@ class ManualCSVSource:
         self.cfg = cfg
         self.paths = (cfg.get("data_source", {}) or {}).get("manual_csv", {}) or {}
 
-    def get_trade_cal(self) -> pd.DataFrame:
+    def get_trade_cal(self, start_date: str | None = None, end_date: str | None = None) -> pd.DataFrame:
         df = _read_csv(self.paths.get("trade_cal_path", ""))
         # expected cols: cal_date, is_open (1/0)
         if df.empty:
@@ -29,6 +29,13 @@ class ManualCSVSource:
             df["cal_date"] = df["cal_date"].astype(str).str.replace("-", "")
         if "is_open" in df.columns:
             df["is_open"] = df["is_open"].astype(str)
+
+        start_norm = normalize_trade_date(start_date, sep="") if start_date else ""
+        end_norm = normalize_trade_date(end_date, sep="") if end_date else ""
+        if start_norm:
+            df = df[df["cal_date"] >= start_norm]
+        if end_norm:
+            df = df[df["cal_date"] <= end_norm]
         return df
 
     def get_daily_bars(self, end_trade_date: str, lookback_days: int = 60) -> pd.DataFrame:

@@ -9,7 +9,8 @@ from typing import Any, Dict, Optional
 import pandas as pd
 import requests
 
-from ..core.config import resolve_path, get_env
+from ..core.config import resolve_path
+import os
 
 class CircuitBreaker:
     def __init__(self, fail_threshold: int, open_cooldown_sec: int):
@@ -56,7 +57,7 @@ class TushareProxySource:
         self.official = official
         tc = (cfg.get("data_source", {}) or {}).get("tushare", {}) or {}
         self.http_url = tc.get("http_url", "").strip()
-        self.token = get_env(tc.get("token_env", "TUSHARE_TOKEN"), "")
+        self.token = os.getenv(tc.get("token_env", "TUSHARE_TOKEN"), "")
         self.timeout = int(tc.get("timeout_sec", 15))
         self.max_retries = int(tc.get("max_retries", 3))
         self.backoff = float(tc.get("backoff_sec", 1.5))
@@ -93,9 +94,14 @@ class TushareProxySource:
                 time.sleep(self.backoff * (i + 1))
         raise RuntimeError("unreachable")
 
-    def get_trade_cal(self) -> pd.DataFrame:
+    def get_trade_cal(self, start_date: Optional[str] = None, end_date: Optional[str] = None) -> pd.DataFrame:
         # Expected proxy endpoint: trade_cal
-        obj = self._post("trade_cal", {"params": {}})
+        params: Dict[str, Any] = {}
+        if start_date:
+            params["start_date"] = str(start_date).replace("-", "")
+        if end_date:
+            params["end_date"] = str(end_date).replace("-", "")
+        obj = self._post("trade_cal", {"params": params})
         return pd.DataFrame(obj.get("data", []))
 
     def get_daily_bars(self, end_trade_date: str, lookback_days: int = 60) -> pd.DataFrame:
