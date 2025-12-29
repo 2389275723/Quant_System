@@ -25,8 +25,12 @@ class DataSourcePolicy:
         else:
             raise ValueError(f"Unknown data_source.mode={mode}")
 
-    def get_trade_cal(self) -> pd.DataFrame:
-        return self.src.get_trade_cal()
+    def get_trade_cal(self, start_date: Optional[str] = None, end_date: Optional[str] = None) -> pd.DataFrame:
+        try:
+            return self.src.get_trade_cal(start_date=start_date, end_date=end_date)
+        except TypeError:
+            # backward compatibility with sources that don't accept date range
+            return self.src.get_trade_cal()
 
     def get_daily_bars(self, end_trade_date: str, lookback_days: int = 60) -> pd.DataFrame:
         return self.src.get_daily_bars(end_trade_date=end_trade_date, lookback_days=lookback_days)

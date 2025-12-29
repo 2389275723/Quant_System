@@ -7,11 +7,15 @@ from datetime import datetime
 from pathlib import Path
 import subprocess
 import csv
+from typing import Optional
 
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from src.core.config import load_cfg
+from src.core.trading_calendar import TradingCalendar
+from src.utils.trade_date import normalize_trade_date
 from src.bridge.reconciliation import check_reconcile_status, RECONCILE_STATUS_PATH
 
 MAIN = ROOT / "main.py"
@@ -32,8 +36,25 @@ def _load_trade_cal(trade_cal_csv: Path) -> dict[str, bool]:
             cal[key] = io in ("1", "true", "True", "TRUE", "Y", "y")
     return cal
 
-def ensure_trade_day(trade_date: str) -> None:
-    # prefer local trade_cal cache if present
+def _exit_payload(payload: dict[str, object], code: int = 2) -> None:
+    print(json.dumps(payload, ensure_ascii=False))
+    raise SystemExit(code)
+
+
+def ensure_trade_day(trade_date: str, cfg_path: Optional[str]) -> None:
+    td_norm = normalize_trade_date(trade_date)
+    cfg_file = cfg_path or "config/config.yaml"
+
+    try:
+        cfg = load_cfg(cfg_file)
+        cal = TradingCalendar(cfg, cfg_path=cfg_file)
+        if not cal.is_trade_day(td_norm):
+            _exit_payload({"ok": False, "reason": "NOT_TRADE_DAY", "trade_date": td_norm})
+        return
+    except Exception:
+        # fall through to CSV/weekend guard if config/calendar unavailable
+        pass
+
     candidates = [
         ROOT / "data" / "manual" / "trade_cal.csv",
         ROOT / "data" / "trade_cal.csv",
@@ -42,48 +63,58 @@ def ensure_trade_day(trade_date: str) -> None:
         if p.exists():
             try:
                 cal = _load_trade_cal(p)
-                if trade_date in cal:
-                    if not cal[trade_date]:
-                        print("NOT_TRADE_DAY")
-                        raise SystemExit(2)
+                if td_norm in cal:
+                    if not cal[td_norm]:
+                        _exit_payload(
+                            {"ok": False, "reason": "NOT_TRADE_DAY", "trade_date": td_norm, "source": str(p)}
+                        )
                     return
             except Exception:
                 break
 
     # fallback: weekend
     try:
-        dt = datetime.strptime(trade_date, "%Y-%m-%d").date()
+        dt = datetime.strptime(td_norm or trade_date, "%Y-%m-%d").date()
     except ValueError:
-        print(f"BAD_TRADE_DATE: {trade_date}")
-        raise SystemExit(2)
+        _exit_payload({"ok": False, "reason": "BAD_TRADE_DATE", "trade_date": trade_date})
 
     if dt.weekday() >= 5:
-        print("NOT_TRADE_DAY")
-        raise SystemExit(2)
+        _exit_payload({"ok": False, "reason": "NOT_TRADE_DAY", "trade_date": td_norm or trade_date})
 
 def ensure_reconcile_ok(trade_date: str) -> None:
     ok, reason, _ = check_reconcile_status(trade_date, status_path=RECONCILE_STATUS_PATH)
     if ok:
         return
     msg = f"RECONCILE_STATUS_BLOCK: {reason} (path={RECONCILE_STATUS_PATH})"
-    print(msg)
-    raise SystemExit(3)
+    _exit_payload(
+        {
+            "ok": False,
+            "reason": "RECONCILE_STATUS_BLOCK",
+            "trade_date": trade_date,
+            "details": reason,
+            "status_path": str(RECONCILE_STATUS_PATH),
+            "message": msg,
+        },
+        code=3,
+    )
 
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("job", choices=["night", "morning"])
     parser.add_argument("--trade-date", required=True, dest="trade_date")
-    parser.add_argument("--cfg", default=None, dest="cfg")
+    parser.add_argument("--cfg", default="config/config.yaml", dest="cfg")
     args, rest = parser.parse_known_args()
 
-    trade_date = args.trade_date
-    ensure_trade_day(trade_date)
+    cfg_file = args.cfg or "config/config.yaml"
+    trade_date = normalize_trade_date(args.trade_date) or args.trade_date
+
+    ensure_trade_day(trade_date, cfg_file)
     if args.job == "morning":
         ensure_reconcile_ok(trade_date)
 
     cmd = [sys.executable, str(MAIN)]
-    if args.cfg:
-        cmd += ["--cfg", args.cfg]
+    if cfg_file:
+        cmd += ["--cfg", cfg_file]
     cmd += [args.job, "--trade-date", trade_date]
     cmd += rest
 

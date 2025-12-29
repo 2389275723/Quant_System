@@ -2,6 +2,9 @@ system:
   strategy_id: GXFC
   version: v1.5.4
   timezone: Asia/Shanghai
+trade_cal:
+  cache_path: data/trade_cal.csv
+  lookback_days: 400
 news:
   enabled: true
   enable_tushare_ctx: true

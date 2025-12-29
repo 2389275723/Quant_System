@@ -50,6 +50,8 @@ from src.core.config import load_cfg, get
 from src.core.paths import resolve_from_cfg
 from src.core.hashing import stable_hash_dict, file_hash
 from src.core.timeutil import make_run_id, now_cn, today_cn
+from src.core.trading_calendar import TradingCalendar
+from src.utils.trade_date import normalize_trade_date
 from src.storage.sqlite import connect
 from src.storage.schema import ensure_schema, safe_rank_column
 from src.storage.upsert import upsert_df
@@ -65,6 +67,26 @@ def _set_state(conn: sqlite3.Connection, k: str, v: str) -> None:
         "ON CONFLICT(k) DO UPDATE SET v=excluded.v, updated_at=excluded.updated_at",
         (k, v),
     )
+
+
+def _early_return(
+    conn: sqlite3.Connection,
+    run_id: str,
+    trade_date: Optional[str],
+    reason: str,
+    *,
+    status: str = "SKIP",
+    message: Optional[str] = None,
+) -> Dict[str, Any]:
+    finished_at = now_cn().isoformat(timespec="seconds")
+    msg = message or reason
+    conn.execute(
+        "UPDATE execution_log SET status=?, error_code=?, error_msg=?, trade_date=?, finished_at=? WHERE run_id=?",
+        (status, reason, msg, trade_date or "", finished_at, run_id),
+    )
+    _set_state(conn, "phase", "IDLE")
+    _set_state(conn, "last_error", msg)
+    return {"ok": False, "run_id": run_id, "trade_date": trade_date, "reason": reason, "message": msg}
 
 
 def _latest_trade_date(conn: sqlite3.Connection) -> Optional[str]:
@@ -83,6 +105,8 @@ def _enforce_reconcile_gate(trade_date: str) -> None:
 
 def run_morning_job(cfg_path: str = "config/config.yaml", trade_date: Optional[str] = None) -> Dict[str, Any]:
     cfg = load_cfg(cfg_path)
+    calendar = TradingCalendar(cfg, cfg_path=cfg_path)
+    trade_date_input = normalize_trade_date(trade_date) if trade_date is not None else None
     db_path = str(resolve_from_cfg(cfg_path, get(cfg, "paths.db_path")))
     outbox_dir = get(cfg, "paths.outbox_dir")
     stop_file = get(cfg, "paths.stop_file")
@@ -105,9 +129,14 @@ def run_morning_job(cfg_path: str = "config/config.yaml", trade_date: Optional[s
     )
 
     try:
-        if trade_date is None:
-            # default to latest picks date, else today
-            trade_date = _latest_trade_date(conn) or today_cn()
+        trade_date = trade_date_input or _latest_trade_date(conn) or today_cn()
+        trade_date = normalize_trade_date(trade_date)
+        if not trade_date:
+            trade_date = normalize_trade_date(today_cn())
+
+        ok_gate, reason = calendar.gate(trade_date)
+        if not ok_gate:
+            return _early_return(conn, run_id, trade_date, reason, status="SKIP")
 
         _enforce_reconcile_gate(trade_date)
 

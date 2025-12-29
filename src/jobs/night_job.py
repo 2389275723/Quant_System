@@ -55,6 +55,7 @@ from src.core.paths import resolve_from_cfg
 from src.core.env import load_env_from_cfg_path
 from src.core.hashing import stable_hash_dict, file_hash
 from src.core.timeutil import make_run_id, now_cn
+from src.core.trading_calendar import TradingCalendar
 from src.utils.trade_date import normalize_trade_date
 from src.storage.sqlite import connect
 from src.storage.schema import ensure_schema
@@ -78,10 +79,39 @@ def _set_state(conn: sqlite3.Connection, k: str, v: str) -> None:
     )
 
 
+def _early_return(
+    conn: sqlite3.Connection,
+    run_id: str,
+    trade_date: Optional[str],
+    reason: str,
+    *,
+    status: str = "SKIP",
+    message: Optional[str] = None,
+) -> Dict[str, Any]:
+    finished_at = now_cn().isoformat(timespec="seconds")
+    msg = message or reason
+    conn.execute(
+        "UPDATE execution_log SET status=?, error_code=?, error_msg=?, trade_date=?, finished_at=? WHERE run_id=?",
+        (status, reason, msg, trade_date or "", finished_at, run_id),
+    )
+    _set_state(conn, "phase", "IDLE")
+    _set_state(conn, "last_error", msg)
+    return {
+        "ok": False,
+        "run_id": run_id,
+        "trade_date": trade_date,
+        "reason": reason,
+        "message": msg,
+        "patch": NIGHT_JOB_PATCH,
+    }
+
+
 def run_night_job(cfg_path: str = "config/config.yaml", trade_date: Optional[str] = None) -> Dict[str, Any]:
     cfg = load_cfg(cfg_path)
     # Ensure .env is loaded when running as a job/CLI
     load_env_from_cfg_path(cfg_path, override=True)
+    calendar = TradingCalendar(cfg, cfg_path=cfg_path)
+    trade_date_input = normalize_trade_date(trade_date) if trade_date is not None else None
     db_path = str(resolve_from_cfg(cfg_path, get(cfg, "paths.db_path")))
     bars_path = str(resolve_from_cfg(cfg_path, get(cfg, "paths.bars_path")))
     exclude_prefixes = get(cfg, "universe.exclude_prefixes", ["300", "301", "688", "689"])
@@ -120,20 +150,46 @@ def run_night_job(cfg_path: str = "config/config.yaml", trade_date: Optional[str
     )
 
     try:
-        bars = pd.read_csv(bars_path, dtype={"ts_code": str})
-        if "trade_date" in bars.columns:
-            bars["trade_date"] = bars["trade_date"].apply(normalize_trade_date)
-        # Normalize incoming trade_date param for comparison
-        if trade_date is not None:
-            trade_date = normalize_trade_date(trade_date)
+        trade_date = trade_date_input
+
+        if trade_date_input:
+            ok_gate, reason = calendar.gate(trade_date_input)
+            if not ok_gate:
+                return _early_return(conn, run_id, trade_date_input, reason, status="SKIP")
+
+        try:
+            bars = pd.read_csv(bars_path, dtype={"ts_code": str})
+        except FileNotFoundError:
+            return _early_return(conn, run_id, trade_date, "DATA_NOT_READY", status="FAILED", message=f"Bars file missing: {bars_path}")
+
+        if bars.empty:
+            return _early_return(conn, run_id, trade_date, "DATA_NOT_READY", status="FAILED", message=f"Bars file empty: {bars_path}")
+
+        if "trade_date" not in bars.columns:
+            return _early_return(conn, run_id, trade_date, "DATA_NOT_READY", status="FAILED", message="bars missing trade_date column")
+
+        bars["trade_date"] = bars["trade_date"].apply(normalize_trade_date)
 
         if trade_date is None:
             # choose the latest available date in the bars file
             trade_date = str(bars["trade_date"].max())
 
+        if not trade_date:
+            return _early_return(conn, run_id, trade_date, "DATA_NOT_READY", status="FAILED", message="trade_date could not be determined from bars")
+
+        if not calendar.is_trade_day(trade_date):
+            return _early_return(conn, run_id, trade_date, "NOT_TRADE_DAY", status="SKIP")
+
         snap = bars.loc[bars["trade_date"] == trade_date].copy()
         if snap.empty:
-            raise RuntimeError(f"No bars found for trade_date={trade_date} in {bars_path}")
+            return _early_return(
+                conn,
+                run_id,
+                trade_date,
+                "DATA_NOT_READY",
+                status="FAILED",
+                message=f"No bars found for trade_date={trade_date} in {bars_path}",
+            )
 
         # 1) Universe hard filter
         universe = apply_universe_filters(snap, exclude_prefixes=exclude_prefixes, exclude_bj=exclude_bj, max_total_mv=max_total_mv)
