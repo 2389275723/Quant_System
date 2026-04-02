@@ -1,0 +1,16 @@
+{
+  "project_id": "",
+  "top_priorities": [
+    {
+      "priority_rank": 1,
+      "issue_or_fused_risk_id": "",
+      "category": "",
+      "severity": "P0/P1/P2",
+      "why_now": "",
+      "recommended_action": "",
+      "expected_gain_if_fixed": ""
+    }
+  ],
+  "can_wait": [],
+  "panel_status": "clear/focused/overloaded"
+}
