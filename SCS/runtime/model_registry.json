@@ -1,0 +1,54 @@
+{
+  "models": [
+    {
+      "id": "gpt_planner_primary",
+      "provider": "openai",
+      "model_name": "gpt-5",
+      "role_tags": ["planner", "review", "governance", "routing"],
+      "context_strength": "high",
+      "style_strength": "medium",
+      "cost_level": "high",
+      "notes": "适合 bootstrap、审稿、深层治理、终局规划"
+    },
+    {
+      "id": "claude_long_context",
+      "provider": "anthropic",
+      "model_name": "claude-sonnet",
+      "role_tags": ["planner", "long_context", "finale", "canon"],
+      "context_strength": "high",
+      "style_strength": "medium",
+      "cost_level": "high",
+      "notes": "适合 project_bible、canon、volume、finale 等长上下文任务"
+    },
+    {
+      "id": "gemini_structured",
+      "provider": "google_gemini",
+      "model_name": "gemini-2.5-pro",
+      "role_tags": ["summary", "planner", "analysis"],
+      "context_strength": "high",
+      "style_strength": "medium",
+      "cost_level": "medium",
+      "notes": "适合长文读取、摘要、结构分析"
+    },
+    {
+      "id": "writer_style_primary",
+      "provider": "openai_compatible",
+      "model_name": "your-writer-model",
+      "role_tags": ["writer", "rewrite", "style_polish"],
+      "context_strength": "medium",
+      "style_strength": "high",
+      "cost_level": "medium",
+      "notes": "适合正文写作、润色、定向改写"
+    },
+    {
+      "id": "cheap_utility_model",
+      "provider": "openai_compatible",
+      "model_name": "your-cheap-model",
+      "role_tags": ["summary", "formatting", "utility"],
+      "context_strength": "medium",
+      "style_strength": "low",
+      "cost_level": "low",
+      "notes": "适合低成本摘要、整理、格式化"
+    }
+  ]
+}
