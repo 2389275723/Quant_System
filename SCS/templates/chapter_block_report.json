@@ -1,0 +1,16 @@
+{
+  "project_id": "",
+  "chapter_id": 0,
+  "volume_id": "",
+  "blocked_at_step": "",
+  "block_severity": "P0/P1/P2",
+  "block_reason": "",
+  "root_cause_category": "canon/character/contract/structure/style/ending/ledger/author/finale_guard",
+  "why_blocked": "",
+  "must_fix_now": [],
+  "owner": "core/writer/reviewer/style_director/style_reviewer/prose_guard/author/ledger",
+  "rollback_to_step": "",
+  "reentry_condition": "",
+  "linked_issues": [],
+  "status": "BLOCKED/RESOLVED"
+}
