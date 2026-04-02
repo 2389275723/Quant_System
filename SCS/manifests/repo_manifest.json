@@ -1,0 +1,30 @@
+{
+  "name": "SCS",
+  "full_name": "Story Control System",
+  "current_stage": "design_and_template_repository",
+  "recommended_default_stack": [
+    "V1.0",
+    "V1.1a",
+    "V1.1b"
+  ],
+  "available_layers": [
+    "V1.0 Core",
+    "V1.1a Route Layer",
+    "V1.1b Workbench Layer",
+    "V1.1c Deep Governance Layer",
+    "V1.2a Legacy & Migration Layer",
+    "V1.2b Auto Governance Layer"
+  ],
+  "entry_docs": [
+    "README.md",
+    "docs/getting-started.md",
+    "docs/recommended-stacks.md",
+    "docs/architecture.md"
+  ],
+  "template_root": "templates/",
+  "preset_root": "presets/",
+  "notes": [
+    "当前仓库以方法论文档和 JSON 模板为主",
+    "适合继续扩展为更正式的技能仓库或内部工作流仓库"
+  ]
+}
