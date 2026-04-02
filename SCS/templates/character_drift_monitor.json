@@ -1,0 +1,20 @@
+{
+  "project_id": "",
+  "range": "chapter_1_to_20",
+  "character_findings": [
+    {
+      "character_id": "",
+      "name": "",
+      "drift_level": "none/light/moderate/severe",
+      "drift_type": "motivation/emotion/voice/decision_pattern/functionality/relationship_presence",
+      "baseline_definition": "",
+      "current_observation": "",
+      "evidence_chapters": [],
+      "why_risky": "",
+      "fix_direction": "",
+      "must_protect": []
+    }
+  ],
+  "global_patterns": [],
+  "status": "healthy/warn/high_risk"
+}
