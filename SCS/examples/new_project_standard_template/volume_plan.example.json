@@ -1,0 +1,17 @@
+{
+  "project_id": "demo_project_001",
+  "volumes": [
+    {
+      "volume_id": "vol_001",
+      "name": "第一卷",
+      "chapter_range": "1-20",
+      "core_goal": "这一卷必须完成什么",
+      "main_conflict": "卷核心冲突",
+      "required_payoffs": [],
+      "required_setups": [],
+      "climax_type": "卷高潮类型",
+      "status": "planned"
+    }
+  ],
+  "status": "draft"
+}
