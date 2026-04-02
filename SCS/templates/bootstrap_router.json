@@ -1,0 +1,28 @@
+{
+  "project_id": "",
+  "title": "",
+  "one_line_hook": "",
+  "genre_tags": [],
+  "protagonist": "",
+  "core_conflict": "",
+  "volume_1_goal": "",
+  "detected_signals": {
+    "has_cultivation_realms": false,
+    "has_magic_system": false,
+    "has_strong_relationship_core": false,
+    "has_dynastic_power_struggle": false,
+    "has_multi_race_world": false,
+    "has_large_world_hierarchy": false,
+    "has_faction_politics": false,
+    "has_endgame_truth_layer": false
+  },
+  "primary_route": "general/xianxia/high_concept_relationship/court_intrigue/western_fantasy",
+  "secondary_routes": [],
+  "route_reasoning": [],
+  "required_bootstrap_packs": [],
+  "required_modules": [],
+  "route_status": "LOCK_REQUIRED/REVISION_REQUIRED/GRANTED/BLOCKED",
+  "write_permission": "DENIED/GRANTED",
+  "blocking_reasons": [],
+  "next_action": ""
+}
