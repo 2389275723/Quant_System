@@ -1,0 +1,24 @@
+{
+  "project_id": "",
+  "major_factions": [
+    {
+      "faction_id": "",
+      "name": "",
+      "type": "sect/clan/alliance/demonic_path/hidden_lineage/court/merchant_power",
+      "power_base": "",
+      "resource_base": "",
+      "core_doctrine": "",
+      "recruitment_logic": "",
+      "public_face": "",
+      "hidden_goal": "",
+      "allies": [],
+      "rivals": [],
+      "fatal_weakness": ""
+    }
+  ],
+  "territory_distribution": [],
+  "resource_conflicts": [],
+  "mobility_rules": [],
+  "hard_red_lines": [],
+  "status": "draft/locked"
+}
