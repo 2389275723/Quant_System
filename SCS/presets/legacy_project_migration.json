@@ -1,0 +1,28 @@
+{
+  "preset_name": "legacy_project_migration",
+  "recommended_stack": [
+    "V1.0 Core",
+    "V1.2a Legacy & Migration Layer",
+    "V1.1b Workbench Layer"
+  ],
+  "must_enable": [
+    "legacy_project_intake",
+    "legacy_route_reconstructor",
+    "foundation_backfill_builder",
+    "chapter_history_reconstructor",
+    "legacy_issue_scan",
+    "legacy_payoff_recovery_map",
+    "legacy_finale_recovery_map",
+    "migration_mode_selector",
+    "legacy_migration_summary",
+    "legacy_reentry_gate",
+    "project_status_dashboard",
+    "volume_health_report"
+  ],
+  "best_for": [
+    "老项目接回系统",
+    "半途项目纳管",
+    "旧坑修复前诊断",
+    "终局还能不能救的判断"
+  ]
+}
