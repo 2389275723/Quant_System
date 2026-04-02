@@ -1,0 +1,14 @@
+{
+  "project_id": "demo_project_001",
+  "hard_canon": [
+    "绝对不能改动的世界规则写这里"
+  ],
+  "soft_canon": [
+    "可扩展但不能自相矛盾的设定写这里"
+  ],
+  "world_rules": [],
+  "relationship_rules": [],
+  "forbidden_changes": [],
+  "retcon_policy": "strict",
+  "status": "draft"
+}
