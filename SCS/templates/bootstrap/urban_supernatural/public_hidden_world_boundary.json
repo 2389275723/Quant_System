@@ -1,0 +1,16 @@
+{
+  "project_id": "",
+  "public_layer": {
+    "visibility_level": "",
+    "cover_story_logic": "",
+    "public_risk_if_exposed": ""
+  },
+  "hidden_layer": {
+    "entry_rules": [],
+    "protection_rules": [],
+    "common_civilians_know": "",
+    "forbidden_exposures": []
+  },
+  "breach_consequences": [],
+  "status": "draft/locked"
+}
