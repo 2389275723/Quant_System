@@ -1,0 +1,27 @@
+{
+  "project_id": "",
+  "chapter_id": 0,
+  "title": "",
+  "volume_id": "",
+  "current_state": "PRECHECK/CONTRACT/APPROVED/DRAFTING/REVIEWING/REWRITING/STYLING/AUTHOR_CHECK/LEDGER/ARCHIVED/BLOCKED",
+  "progress": {
+    "precheck": "done/pending/blocked",
+    "chapter_contract": "done/pending/blocked",
+    "core_plan_approval": "done/pending/blocked",
+    "writer_draft": "done/pending/blocked",
+    "reviewer_review": "done/pending/blocked",
+    "writer_rewrite": "done/pending/blocked",
+    "style_director": "done/pending/blocked",
+    "style_reviewer": "done/pending/blocked",
+    "prose_guard": "done/pending/blocked",
+    "author_confirmation": "done/pending/blocked",
+    "ledger_update": "done/pending/blocked",
+    "archive": "done/pending/blocked"
+  },
+  "blocking_issue": "",
+  "highest_current_risk": "",
+  "must_fix_before_next_step": [],
+  "latest_outputs": [],
+  "ready_for_next_step": true,
+  "next_step": ""
+}
