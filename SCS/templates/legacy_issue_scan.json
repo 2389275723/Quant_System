@@ -1,0 +1,18 @@
+{
+  "project_id": "",
+  "scan_findings": [
+    {
+      "issue_id": "",
+      "severity": "P0/P1/P2",
+      "category": "canon/character/payoff/volume/theme/finale/world/repetition/pacing",
+      "description": "",
+      "evidence_range": "",
+      "why_risky": "",
+      "repair_direction": ""
+    }
+  ],
+  "global_status": "healthy/warn/high_risk/broken",
+  "must_fix_before_reentry": [],
+  "can_fix_after_reentry": [],
+  "next_action": ""
+}
