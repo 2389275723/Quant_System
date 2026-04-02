@@ -1,0 +1,24 @@
+{
+  "project_id": "",
+  "core_pairs": [
+    {
+      "pair_id": "",
+      "characters": [],
+      "pair_type": "romantic/rivalry/codependency/family/mentor_bond/obsession/strategic_alliance",
+      "start_state": "",
+      "public_dynamic": "",
+      "hidden_dynamic": "",
+      "primary_tension": "",
+      "attraction_source": "",
+      "trust_barrier": "",
+      "forbidden_zone": "",
+      "break_point": "",
+      "growth_route": "",
+      "relationship_function": "",
+      "must_not_devolve_into": ""
+    }
+  ],
+  "mirror_pairs": [],
+  "pressure_pairs": [],
+  "hard_red_lines": []
+}
