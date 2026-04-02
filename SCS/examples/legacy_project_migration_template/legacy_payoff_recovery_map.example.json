@@ -1,0 +1,17 @@
+{
+  "project_id": "legacy_demo_001",
+  "payoffs": [
+    {
+      "payoff_id": "legacy_payoff_001",
+      "category": "relationship",
+      "origin_range": "chapter_8_to_12",
+      "current_status": "weak",
+      "best_recovery_window": "chapter_39_to_45",
+      "deadline": "chapter_50",
+      "risk_if_unrecovered": "终局关系答案会显得突兀",
+      "recovery_strategy": "在下一卷前半加入一次伴随真实代价的选择性兑现"
+    }
+  ],
+  "critical_losses": [],
+  "status": "warn"
+}
