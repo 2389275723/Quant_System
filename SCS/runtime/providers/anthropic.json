@@ -1,0 +1,12 @@
+{
+  "provider": "anthropic",
+  "base_url": "https://api.anthropic.com",
+  "api_key_env": "ANTHROPIC_API_KEY",
+  "api_format": "anthropic_messages",
+  "default_model": "claude-sonnet",
+  "timeout_sec": 120,
+  "retry": {
+    "max_attempts": 3,
+    "backoff_sec": 2
+  }
+}
