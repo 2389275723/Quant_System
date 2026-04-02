@@ -1,0 +1,20 @@
+{
+  "project_id": "legacy_demo_001",
+  "intake_status": "STANDARD",
+  "foundation_status": "PARTIAL",
+  "history_status": "PARTIAL",
+  "issue_status": "warn",
+  "payoff_status": "warn",
+  "finale_status": "repair_needed",
+  "recommended_mode": "REPAIR",
+  "why_this_mode": [
+    "foundation 可恢复但不完整",
+    "存在必须优先修复的 payoff 风险",
+    "终局不必重建但不能直接平滑接入"
+  ],
+  "must_fix_before_reentry": [
+    "修复弱化的关系 payoff",
+    "补齐当前卷边界定义"
+  ],
+  "status": "LOCKED"
+}
