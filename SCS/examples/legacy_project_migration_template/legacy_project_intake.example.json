@@ -1,0 +1,21 @@
+{
+  "project_id": "legacy_demo_001",
+  "title": "旧项目示例名",
+  "existing_chapter_count": 38,
+  "estimated_total_length": "long",
+  "current_stage_guess": "mid",
+  "available_assets": {
+    "full_text_available": true,
+    "chapter_summaries_available": false,
+    "outline_available": true,
+    "character_notes_available": true,
+    "ending_notes_available": false
+  },
+  "observed_problem_signals": [
+    "payoff_loss",
+    "volume_blur"
+  ],
+  "intake_status": "STANDARD",
+  "blocking_factors": [],
+  "next_action": "继续做路由重建"
+}
