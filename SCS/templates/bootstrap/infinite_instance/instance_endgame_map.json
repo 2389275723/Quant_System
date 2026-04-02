@@ -1,0 +1,10 @@
+{
+  "project_id": "",
+  "mainline_truth": "",
+  "hub_world_final_state": "",
+  "instance_system_final_answer": "",
+  "required_preparations": [],
+  "must_resolve_before_final_instance": [],
+  "must_not_break": [],
+  "status": "draft/locked"
+}
