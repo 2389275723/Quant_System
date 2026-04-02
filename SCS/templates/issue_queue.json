@@ -1,0 +1,26 @@
+{
+  "project_id": "",
+  "issues": [
+    {
+      "issue_id": "",
+      "source": "review/style_review/prose_guard/recap/finale_supervisor/author",
+      "chapter_range": "",
+      "severity": "P0/P1/P2",
+      "category": "canon/character/pacing/style/ending/repetition/commercial/payoff/theme",
+      "title": "",
+      "description": "",
+      "impact": "",
+      "why_now": "",
+      "fix_direction": "",
+      "owner": "core/writer/style_director/bootstrap_director/finale_supervisor",
+      "status": "open/fixed/deferred/escalated",
+      "repeat_count": 0,
+      "linked_rules": [],
+      "linked_chapters": [],
+      "created_at_chapter": 0,
+      "last_checked_chapter": 0,
+      "resolution_note": ""
+    }
+  ],
+  "queue_status": "healthy/warn/overloaded"
+}
