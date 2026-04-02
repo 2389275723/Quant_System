@@ -1,0 +1,17 @@
+{
+  "project_id": "",
+  "observed_signals": {
+    "growth_axis_strength": "",
+    "relationship_axis_strength": "",
+    "power_axis_strength": "",
+    "world_axis_strength": "",
+    "mystery_axis_strength": ""
+  },
+  "primary_route": "",
+  "secondary_routes": [],
+  "route_confidence": "low/medium/high",
+  "why_this_route": [],
+  "missing_route_modules": [],
+  "risk_if_misrouted": [],
+  "next_action": ""
+}
