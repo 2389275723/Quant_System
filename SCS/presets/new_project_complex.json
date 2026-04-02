@@ -1,0 +1,31 @@
+{
+  "preset_name": "new_project_complex",
+  "recommended_stack": [
+    "V1.0 Core",
+    "V1.1a Route Layer",
+    "V1.1b Workbench Layer",
+    "V1.1c Deep Governance Layer"
+  ],
+  "must_enable": [
+    "bootstrap_router",
+    "project_bible",
+    "canon_rules",
+    "character_state",
+    "volume_plan",
+    "chapter_contract",
+    "chapter_run_packet",
+    "chapter_status_dashboard",
+    "volume_health_report",
+    "volume_transition_gate",
+    "character_drift_monitor",
+    "world_expansion_auditor",
+    "payoff_fatigue_monitor",
+    "premature_reveal_guard"
+  ],
+  "best_for": [
+    "50章以上长篇",
+    "mixed 项目",
+    "多卷、多层世界、多主轴项目",
+    "怕中后期慢性变差的项目"
+  ]
+}
