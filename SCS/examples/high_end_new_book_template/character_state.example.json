@@ -1,0 +1,41 @@
+{
+  "project_id": "high_end_demo_001",
+  "characters": [
+    {
+      "character_id": "mc_001",
+      "name": "主角",
+      "role": "mc",
+      "core_goal": "在高压秩序下活下去并逐步夺回主动权",
+      "core_fear": "失去定义权，变成别人规则里的耗材",
+      "current_state": "早期高压求生期",
+      "relationship_status": [
+        "与核心搭档处于试探绑定阶段"
+      ],
+      "must_not_break": [
+        "不能无理由变成纯嘴炮型主角",
+        "高风险选择必须有收益逻辑"
+      ],
+      "voice_notes": [
+        "冷静、克制、带锋利感"
+      ]
+    },
+    {
+      "character_id": "cp_001",
+      "name": "核心搭档",
+      "role": "deuteragonist",
+      "core_goal": "保护自身位置并判断主角是否值得绑定",
+      "core_fear": "被利用后失去自我与退路",
+      "current_state": "试探与合作并存",
+      "relationship_status": [
+        "与主角存在利益与情感双重张力"
+      ],
+      "must_not_break": [
+        "不能中后期沦为纯工具人"
+      ],
+      "voice_notes": [
+        "理性、锋利、隐忍"
+      ]
+    }
+  ],
+  "status": "draft"
+}
