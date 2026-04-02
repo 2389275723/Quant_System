@@ -1,0 +1,24 @@
+{
+  "project_id": "",
+  "final_state": {
+    "mc_final_position": "",
+    "world_final_state": "",
+    "core_theme_answer": "",
+    "main_conflict_resolution": "",
+    "ending_emotional_aftertaste": ""
+  },
+  "required_preconditions": [
+    {
+      "precondition_id": "",
+      "name": "",
+      "must_exist_by_chapter": 0,
+      "category": "world/character/relationship/payoff/theme/cost",
+      "reason": "",
+      "status": "open/ready/fulfilled/missed"
+    }
+  ],
+  "required_relationship_states": [],
+  "required_payoffs": [],
+  "forbidden_endings": [],
+  "status": "draft/active/revise"
+}
