@@ -1,0 +1,21 @@
+{
+  "project_id": "",
+  "chapter_id": 1,
+  "volume_id": "",
+  "chapter_title_working": "",
+  "objective": "",
+  "main_push": "",
+  "conflict_type": "",
+  "emotion_target": "",
+  "relationship_shift": "",
+  "required_information": [],
+  "required_cost": "",
+  "hook_type": "",
+  "completion_signal": "",
+  "forbidden_moves": [],
+  "dependencies": [],
+  "foreshadow_use": [],
+  "foreshadow_add": [],
+  "risk_notes": [],
+  "approval_status": "PLAN_DRAFTED"
+}
