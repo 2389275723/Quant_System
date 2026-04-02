@@ -1,0 +1,15 @@
+{
+  "project_id": "",
+  "group_payoffs": [
+    {
+      "payoff_id": "",
+      "scope": "team/family/clan/court/fellowship",
+      "setup_range": "",
+      "promised_result": "",
+      "best_window": "",
+      "deadline": "",
+      "status": "open/ready/fulfilled/missed"
+    }
+  ],
+  "status": "draft/locked"
+}
