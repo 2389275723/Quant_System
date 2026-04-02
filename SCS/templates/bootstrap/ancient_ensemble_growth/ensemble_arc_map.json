@@ -1,0 +1,17 @@
+{
+  "project_id": "",
+  "ensemble_members": [
+    {
+      "character_id": "",
+      "name": "",
+      "starting_role": "",
+      "growth_direction": "",
+      "core_need": "",
+      "social_position_shift": "",
+      "group_function": ""
+    }
+  ],
+  "shared_turning_points": [],
+  "must_not_flatten": [],
+  "status": "draft/locked"
+}
