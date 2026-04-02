@@ -1,0 +1,20 @@
+{
+  "project_id": "",
+  "divinities": [
+    {
+      "deity_id": "",
+      "name": "",
+      "domain": "",
+      "current_strength": "",
+      "worship_base": "",
+      "church_or_order": "",
+      "taboos": [],
+      "rival_deities": [],
+      "story_function": ""
+    }
+  ],
+  "divine_interference_rules": [],
+  "miracle_costs": [],
+  "heresy_pressure_points": [],
+  "status": "draft/locked"
+}
