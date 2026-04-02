@@ -1,0 +1,25 @@
+{
+  "project_id": "high_end_demo_001",
+  "range": "chapter_1_to_10",
+  "character_findings": [
+    {
+      "character_id": "mc_001",
+      "name": "主角",
+      "drift_level": "none",
+      "drift_type": "decision_pattern",
+      "baseline_definition": "冷静、克制、风险优先",
+      "current_observation": "目前仍处于符合 baseline 的早期高压求生状态",
+      "evidence_chapters": [1],
+      "why_risky": "若后续为了爽点频繁高调，会破坏主角底色",
+      "fix_direction": "维持高收益/高风险匹配逻辑",
+      "must_protect": [
+        "风险判断逻辑",
+        "冷静决策感"
+      ]
+    }
+  ],
+  "global_patterns": [
+    "新书早期重点防止主角快速模板化"
+  ],
+  "status": "healthy"
+}
