@@ -1,0 +1,34 @@
+{
+  "project_id": "high_end_demo_001",
+  "volumes": [
+    {
+      "volume_id": "vol_001",
+      "name": "第一卷：底层报错与越界启动",
+      "chapter_range": "1-25",
+      "core_goal": "主角活下来并完成第一次真正的主动夺资源",
+      "main_conflict": "高位秩序压制与旧势力试探双线夹击",
+      "required_payoffs": [
+        "主角第一次证明自己不是纯棋子",
+        "核心搭档关系完成一次带代价的位移"
+      ],
+      "required_setups": [
+        "世界层级裂缝初显",
+        "终局真相只露疑点不露答案"
+      ],
+      "climax_type": "资源争夺 + 规则反制",
+      "status": "planned"
+    },
+    {
+      "volume_id": "vol_002",
+      "name": "第二卷：中层世界打开",
+      "chapter_range": "26-55",
+      "core_goal": "打开中层世界并逼迫关系与成长双线升级",
+      "main_conflict": "资源夺取与信任代价同步上升",
+      "required_payoffs": [],
+      "required_setups": [],
+      "climax_type": "双线冲突叠加",
+      "status": "planned"
+    }
+  ],
+  "status": "draft"
+}
