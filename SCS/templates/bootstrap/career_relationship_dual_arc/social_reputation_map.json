@@ -1,0 +1,17 @@
+{
+  "project_id": "",
+  "reputation_nodes": [
+    {
+      "node_id": "",
+      "character_id": "",
+      "public_image": "",
+      "private_truth": "",
+      "key_observers": [],
+      "reputation_risk": "",
+      "career_impact": "",
+      "relationship_impact": ""
+    }
+  ],
+  "rumor_channels": [],
+  "status": "draft/locked"
+}
