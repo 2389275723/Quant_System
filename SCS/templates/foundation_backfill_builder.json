@@ -1,0 +1,21 @@
+{
+  "project_id": "",
+  "backfill_targets": {
+    "project_bible": "missing/partial/recovered",
+    "canon_rules": "missing/partial/recovered",
+    "character_state": "missing/partial/recovered",
+    "volume_plan": "missing/partial/recovered"
+  },
+  "recovered_core": {
+    "core_hook": "",
+    "core_theme_guess": "",
+    "main_conflict_guess": "",
+    "current_mc_state": "",
+    "current_world_scope": "",
+    "current_volume_guess": ""
+  },
+  "uncertain_areas": [],
+  "hard_conflicts_found": [],
+  "repair_needed_before_lock": [],
+  "status": "RECOVERED/PARTIAL/BLOCKED"
+}
