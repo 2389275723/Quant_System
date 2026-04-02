@@ -1,0 +1,14 @@
+{
+  "project_id": "",
+  "pair_arcs": [
+    {
+      "pair_id": "",
+      "starting_distance": "",
+      "midpoint_break": "",
+      "critical_choice": "",
+      "temporary_answer": "",
+      "final_answer_direction": ""
+    }
+  ],
+  "status": "draft/locked"
+}
