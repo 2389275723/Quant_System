@@ -1,0 +1,19 @@
+{
+  "project_id": "",
+  "range": "chapter_1_to_40",
+  "expansion_findings": [
+    {
+      "finding_id": "",
+      "expansion_type": "map/power/system/faction/truth_layer/rule_layer",
+      "baseline_scope": "",
+      "new_scope": "",
+      "expansion_level": "healthy/fast/excessive",
+      "evidence_chapters": [],
+      "risk_to_story": "",
+      "carry_capacity_problem": "",
+      "fix_direction": ""
+    }
+  ],
+  "stable_growth_signals": [],
+  "status": "healthy/warn/high_risk"
+}
