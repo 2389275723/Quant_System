@@ -1,0 +1,32 @@
+{
+  "project_id": "",
+  "title": "",
+  "current_mode": "mvp/standard/full",
+  "primary_route": "",
+  "secondary_routes": [],
+  "global_state": "BOOTSTRAP/FOUNDATION/VOLUME_RUNNING/CHAPTER_RUNNING/RECAP_PENDING/FINAL_GOVERNANCE/FINAL_VOLUME_PENDING/ENDING_PENDING/COMPLETE/BLOCKED",
+  "progress_summary": {
+    "bootstrap": "not_needed/pending/partial/done",
+    "foundation": "pending/partial/done",
+    "volumes": {"planned": 0, "active": 0, "completed": 0},
+    "chapters": {"planned": 0, "drafted": 0, "archived": 0, "blocked": 0},
+    "operations": {
+      "issue_queue_status": "",
+      "last_5chap_recap": "",
+      "last_20chap_recap": "",
+      "repetition_risk": "",
+      "pacing_risk": ""
+    },
+    "finale": {
+      "endgame_backplanning": "missing/partial/done",
+      "payoff_deadline_registry": "missing/partial/done",
+      "theme_resolution_status": "aligned/drifting/unresolved",
+      "ending_risk_status": "safe/warn/high_risk"
+    }
+  },
+  "highest_global_risks": [],
+  "current_blockers": [],
+  "must_fix_now": [],
+  "recommended_next_actions": [],
+  "status": "healthy/warn/high_risk/blocked"
+}
