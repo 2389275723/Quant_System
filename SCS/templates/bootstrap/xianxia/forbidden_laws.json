@@ -1,0 +1,18 @@
+{
+  "project_id": "",
+  "taboos": [
+    {
+      "law_id": "",
+      "name": "",
+      "scope": "realm/technique/lineage/space-time/soul/causality/heavenly-tribulation",
+      "trigger_condition": "",
+      "penalty": "",
+      "known_exceptions": [],
+      "story_function": ""
+    }
+  ],
+  "enforcement_agents": [],
+  "public_vs_hidden_knowledge": [],
+  "must_not_break": [],
+  "status": "draft/locked"
+}
