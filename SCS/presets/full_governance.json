@@ -1,0 +1,38 @@
+{
+  "preset_name": "full_governance",
+  "recommended_stack": [
+    "V1.0 Core",
+    "V1.1a Route Layer",
+    "V1.1b Workbench Layer",
+    "V1.1c Deep Governance Layer",
+    "V1.2a Legacy & Migration Layer",
+    "V1.2b Auto Governance Layer"
+  ],
+  "must_enable": [
+    "bootstrap_router",
+    "project_status_dashboard",
+    "mode_switch_advisor",
+    "chapter_run_packet",
+    "chapter_status_dashboard",
+    "chapter_block_report",
+    "volume_health_report",
+    "volume_transition_gate",
+    "route_conflict_checker",
+    "character_drift_monitor",
+    "world_expansion_auditor",
+    "payoff_fatigue_monitor",
+    "premature_reveal_guard",
+    "milestone_tracker",
+    "auto_trigger_engine",
+    "deadline_alert_center",
+    "cross_layer_risk_fuser",
+    "governance_priority_panel",
+    "auto_governance_summary"
+  ],
+  "best_for": [
+    "大型 mixed 项目",
+    "多卷长篇",
+    "想让系统主动治理的长期工程",
+    "需要新项目 + 旧项目同时治理的使用场景"
+  ]
+}
