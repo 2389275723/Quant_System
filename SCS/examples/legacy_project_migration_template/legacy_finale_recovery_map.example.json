@@ -1,0 +1,16 @@
+{
+  "project_id": "legacy_demo_001",
+  "current_endgame_clarity": "partial",
+  "recoverable_endgame_paths": [
+    "主角以代价换取定义权的终局仍可成立",
+    "关系线终局仍可修复到可信状态"
+  ],
+  "broken_endgame_paths": [],
+  "must_rebuild_now": [],
+  "can_patch_later": [
+    "终局世界规则表述需进一步统一"
+  ],
+  "theme_resolution_feasibility": "medium",
+  "recommended_endgame_strategy": "先修 payoff，再补终局前置条件，不必整体重建",
+  "status": "repair_needed"
+}
