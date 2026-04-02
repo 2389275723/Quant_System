@@ -1,0 +1,15 @@
+{
+  "project_id": "",
+  "alerts": [
+    {
+      "alert_id": "",
+      "source": "payoff/volume/finale/relationship/reveal/issue",
+      "severity": "P0/P1/P2",
+      "message": "",
+      "due_window": "",
+      "risk_if_ignored": "",
+      "recommended_action": ""
+    }
+  ],
+  "center_status": "quiet/warn/high_alert"
+}
