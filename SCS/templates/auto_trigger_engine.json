@@ -1,0 +1,14 @@
+{
+  "project_id": "",
+  "current_signals": [],
+  "trigger_decisions": [
+    {
+      "trigger_id": "",
+      "module_to_run": "",
+      "why_now": "",
+      "priority": "high/medium/low",
+      "blocking_if_skipped": false
+    }
+  ],
+  "engine_status": "idle/active/escalated"
+}
