@@ -1,0 +1,17 @@
+{
+  "project_id": "",
+  "characters": [
+    {
+      "character_id": "",
+      "name": "",
+      "role": "mc/deuteragonist/supporting/antagonist",
+      "core_goal": "",
+      "core_fear": "",
+      "current_state": "",
+      "relationship_status": [],
+      "must_not_break": [],
+      "voice_notes": []
+    }
+  ],
+  "status": "draft/locked"
+}
