@@ -1,0 +1,18 @@
+{
+  "project_id": "",
+  "constraint_nodes": [
+    {
+      "constraint_id": "",
+      "type": "class/family/political_duty/reputation/trauma/secret/status_gap/ideology/species_or_culture",
+      "description": "",
+      "who_is_bound": [],
+      "visible_pressure": "",
+      "hidden_pressure": "",
+      "penalty_if_broken": "",
+      "story_use": ""
+    }
+  ],
+  "public_observers": [],
+  "private_escape_routes": [],
+  "status": "draft/locked"
+}
