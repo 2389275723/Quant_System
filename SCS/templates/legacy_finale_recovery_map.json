@@ -1,0 +1,11 @@
+{
+  "project_id": "",
+  "current_endgame_clarity": "none/weak/partial/strong",
+  "recoverable_endgame_paths": [],
+  "broken_endgame_paths": [],
+  "must_rebuild_now": [],
+  "can_patch_later": [],
+  "theme_resolution_feasibility": "low/medium/high",
+  "recommended_endgame_strategy": "",
+  "status": "recoverable/repair_needed/rebuild_needed"
+}
