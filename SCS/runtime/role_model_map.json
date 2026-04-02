@@ -1,0 +1,25 @@
+{
+  "roles": {
+    "bootstrap_router": "gpt_planner_primary",
+    "project_init_wizard": "gpt_planner_primary",
+    "project_bible_builder": "claude_long_context",
+    "canon_builder": "claude_long_context",
+    "volume_planner": "claude_long_context",
+    "chapter_writer": "writer_style_primary",
+    "chapter_rewriter": "writer_style_primary",
+    "chapter_reviewer": "gpt_planner_primary",
+    "style_director": "writer_style_primary",
+    "prose_guard": "gpt_planner_primary",
+    "issue_queue_summarizer": "cheap_utility_model",
+    "character_drift_monitor": "gpt_planner_primary",
+    "world_expansion_auditor": "gpt_planner_primary",
+    "payoff_fatigue_monitor": "gpt_planner_primary",
+    "premature_reveal_guard": "gpt_planner_primary",
+    "theme_resolution_checker": "gpt_planner_primary",
+    "finale_supervisor": "claude_long_context",
+    "legacy_route_reconstructor": "gpt_planner_primary",
+    "foundation_backfill_builder": "claude_long_context",
+    "chapter_history_reconstructor": "gemini_structured",
+    "auto_governance_summary": "cheap_utility_model"
+  }
+}
