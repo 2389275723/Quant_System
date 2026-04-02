@@ -1,0 +1,15 @@
+{
+  "project_id": "",
+  "payoffs": [
+    {
+      "payoff_id": "",
+      "pair_id": "",
+      "payoff_type": "trust/confession/protection/betrayal/reversal/reunion/choice/cost",
+      "setup_range": "",
+      "best_window": "",
+      "deadline": "",
+      "status": "open/ready/fulfilled/missed"
+    }
+  ],
+  "status": "draft/locked"
+}
