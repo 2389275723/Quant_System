@@ -1,0 +1,19 @@
+{
+  "project_id": "",
+  "range": "chapter_1_to_30",
+  "fatigue_findings": [
+    {
+      "finding_id": "",
+      "payoff_type": "victory/reveal/reversal/face_slap/trust_gain/confession/political_win/world_truth",
+      "pattern": "",
+      "frequency": 0,
+      "freshness_level": "fresh/declining/fatigued",
+      "evidence_chapters": [],
+      "why_fatigued": "",
+      "fix_direction": "",
+      "rotation_suggestion": ""
+    }
+  ],
+  "healthy_payoff_signals": [],
+  "status": "healthy/warn/fatigued"
+}
