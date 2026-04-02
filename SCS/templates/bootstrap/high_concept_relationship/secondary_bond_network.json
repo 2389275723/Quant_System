@@ -1,0 +1,16 @@
+{
+  "project_id": "",
+  "secondary_bonds": [
+    {
+      "bond_id": "",
+      "characters": [],
+      "bond_type": "friendship/family/mentor/rival/ally/ex/former_savior/shared_secret",
+      "current_state": "",
+      "pressure_on_core_pair": "",
+      "story_function": "",
+      "break_risk": ""
+    }
+  ],
+  "network_effects": [],
+  "status": "draft/locked"
+}
