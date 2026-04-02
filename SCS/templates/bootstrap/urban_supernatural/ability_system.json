@@ -1,0 +1,11 @@
+{
+  "project_id": "",
+  "ability_sources": [],
+  "activation_logic": "",
+  "cost_model": "",
+  "public_side_effects": [],
+  "countermeasures": [],
+  "classification_tiers": [],
+  "must_not_break": [],
+  "status": "draft/locked"
+}
