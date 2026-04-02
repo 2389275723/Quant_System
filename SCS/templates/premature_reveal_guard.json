@@ -1,0 +1,19 @@
+{
+  "project_id": "",
+  "range": "chapter_1_to_25",
+  "reveal_findings": [
+    {
+      "finding_id": "",
+      "reveal_type": "world_truth/endgame_truth/identity_secret/relationship_answer/power_limit/faction_core_secret",
+      "current_reveal_level": "",
+      "allowed_reveal_level": "",
+      "evidence_chapters": [],
+      "risk_level": "safe/warn/high_risk",
+      "why_risky": "",
+      "fix_direction": "",
+      "fallback_form": ""
+    }
+  ],
+  "safe_reveal_signals": [],
+  "status": "healthy/warn/high_risk"
+}
