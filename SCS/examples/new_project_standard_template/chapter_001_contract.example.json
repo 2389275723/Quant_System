@@ -1,0 +1,21 @@
+{
+  "project_id": "demo_project_001",
+  "chapter_id": 1,
+  "volume_id": "vol_001",
+  "chapter_title_working": "第一章暂定名",
+  "objective": "这一章必须完成什么",
+  "main_push": "这一章核心推进点",
+  "conflict_type": "外部冲突/内部冲突/关系冲突/规则冲突",
+  "emotion_target": "读者这一章结束时应感受到什么",
+  "relationship_shift": "关系有没有发生位移",
+  "required_information": [],
+  "required_cost": "主角或剧情必须付出什么代价",
+  "hook_type": "章末钩子类型",
+  "completion_signal": "如何判断这章写够了",
+  "forbidden_moves": [],
+  "dependencies": [],
+  "foreshadow_use": [],
+  "foreshadow_add": [],
+  "risk_notes": [],
+  "approval_status": "PLAN_DRAFTED"
+}
