@@ -1,0 +1,49 @@
+{
+  "project_id": "",
+  "chapter_id": 0,
+  "volume_id": "",
+  "title_working": "",
+  "runtime_scope": {
+    "project_hook": "",
+    "current_volume_goal": "",
+    "chapter_objective": "",
+    "main_push": "",
+    "completion_signal": ""
+  },
+  "must_keep": {
+    "canon_rules": [],
+    "character_state": [],
+    "foreshadow_dependencies": [],
+    "style_constraints": [],
+    "ending_constraints": []
+  },
+  "current_context": {
+    "recent_events": [],
+    "active_tensions": [],
+    "current_relationship_states": [],
+    "current_world_exposure_limit": "",
+    "current_endgame_exposure_limit": ""
+  },
+  "production_inputs": {
+    "required_information": [],
+    "required_cost": "",
+    "forbidden_moves": [],
+    "hook_type": "",
+    "target_emotion": "",
+    "scene_pressure": ""
+  },
+  "risk_focus": {
+    "main_risks": [],
+    "do_not_repeat": [],
+    "do_not_overexplain": [],
+    "do_not_break": []
+  },
+  "route_specific_addons": {
+    "xianxia": [],
+    "relationship": [],
+    "court_intrigue": [],
+    "western_fantasy": [],
+    "general": []
+  },
+  "ready_status": "READY/BLOCKED"
+}
