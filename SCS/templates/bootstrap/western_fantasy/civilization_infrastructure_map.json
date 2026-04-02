@@ -1,0 +1,17 @@
+{
+  "project_id": "",
+  "infrastructure_nodes": [
+    {
+      "node_id": "",
+      "name": "",
+      "type": "road_network/port/teleport_gate/magic_grid/archive/fortress/academy/temple_system",
+      "controller": "",
+      "strategic_value": "",
+      "failure_consequence": ""
+    }
+  ],
+  "maintenance_requirements": [],
+  "hidden_dependencies": [],
+  "collapse_triggers": [],
+  "status": "draft/locked"
+}
