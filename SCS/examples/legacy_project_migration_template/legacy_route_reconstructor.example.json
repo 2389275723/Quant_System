@@ -1,0 +1,22 @@
+{
+  "project_id": "legacy_demo_001",
+  "observed_signals": {
+    "growth_axis_strength": "high",
+    "relationship_axis_strength": "medium",
+    "power_axis_strength": "medium",
+    "world_axis_strength": "medium",
+    "mystery_axis_strength": "low"
+  },
+  "primary_route": "xianxia",
+  "secondary_routes": [
+    "high_concept_relationship"
+  ],
+  "route_confidence": "high",
+  "why_this_route": [
+    "旧正文中升级线最强",
+    "关系线承担部分主回报"
+  ],
+  "missing_route_modules": [],
+  "risk_if_misrouted": [],
+  "next_action": "开始 foundation 回填"
+}
