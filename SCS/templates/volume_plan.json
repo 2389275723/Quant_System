@@ -1,0 +1,17 @@
+{
+  "project_id": "",
+  "volumes": [
+    {
+      "volume_id": "",
+      "name": "",
+      "chapter_range": "",
+      "core_goal": "",
+      "main_conflict": "",
+      "required_payoffs": [],
+      "required_setups": [],
+      "climax_type": "",
+      "status": "planned/running/completed"
+    }
+  ],
+  "status": "draft/locked"
+}
