@@ -1,0 +1,23 @@
+{
+  "project_id": "",
+  "major_powers": [
+    {
+      "power_id": "",
+      "name": "",
+      "type": "empire/kingdom/city_state/church/order/federation/tribal_confederacy",
+      "territory": "",
+      "power_base": "",
+      "resource_base": "",
+      "military_style": "",
+      "religious_alignment": "",
+      "current_conflicts": [],
+      "strategic_goal": "",
+      "fatal_weakness": ""
+    }
+  ],
+  "trade_routes": [],
+  "border_flashpoints": [],
+  "alliances_and_rivalries": [],
+  "hidden_balance_logic": [],
+  "hard_red_lines": []
+}
