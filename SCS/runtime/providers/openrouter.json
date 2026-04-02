@@ -1,0 +1,12 @@
+{
+  "provider": "openrouter",
+  "base_url": "https://openrouter.ai/api/v1",
+  "api_key_env": "OPENROUTER_API_KEY",
+  "api_format": "openai_chat_completions",
+  "default_model": "openrouter/auto",
+  "timeout_sec": 120,
+  "retry": {
+    "max_attempts": 3,
+    "backoff_sec": 2
+  }
+}
