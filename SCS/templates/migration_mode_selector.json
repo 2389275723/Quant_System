@@ -1,0 +1,13 @@
+{
+  "project_id": "",
+  "intake_status": "",
+  "foundation_status": "",
+  "history_status": "",
+  "issue_status": "",
+  "payoff_status": "",
+  "finale_status": "",
+  "recommended_mode": "LIGHT/STANDARD/REPAIR/REBUILD",
+  "why_this_mode": [],
+  "must_fix_before_reentry": [],
+  "status": "DRAFT/LOCKED"
+}
