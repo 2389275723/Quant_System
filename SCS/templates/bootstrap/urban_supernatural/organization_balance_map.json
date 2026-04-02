@@ -1,0 +1,20 @@
+{
+  "project_id": "",
+  "organizations": [
+    {
+      "org_id": "",
+      "name": "",
+      "type": "bureau/clan/church/corporation/academy/hunter_guild/hidden_society",
+      "public_face": "",
+      "hidden_role": "",
+      "power_base": "",
+      "territory_or_sector": "",
+      "allies": [],
+      "rivals": [],
+      "fatal_weakness": ""
+    }
+  ],
+  "balance_logic": "",
+  "breach_triggers": [],
+  "status": "draft/locked"
+}
