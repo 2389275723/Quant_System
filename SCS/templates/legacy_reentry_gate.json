@@ -1,0 +1,12 @@
+{
+  "project_id": "",
+  "migration_mode": "LIGHT/STANDARD/REPAIR/REBUILD",
+  "foundation_ready": false,
+  "history_ready": false,
+  "critical_issues_closed": false,
+  "payoff_recovery_ready": false,
+  "finale_recovery_ready": false,
+  "safe_reentry_point": "foundation_lock/next_volume_start/next_chapter_start/repair_before_reentry",
+  "status": "GRANTED/WARN/BLOCKED",
+  "next_action": ""
+}
