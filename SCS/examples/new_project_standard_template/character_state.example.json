@@ -1,0 +1,17 @@
+{
+  "project_id": "demo_project_001",
+  "characters": [
+    {
+      "character_id": "mc_001",
+      "name": "主角",
+      "role": "mc",
+      "core_goal": "主角当前最核心目标",
+      "core_fear": "主角最怕失去什么",
+      "current_state": "当前状态写这里",
+      "relationship_status": [],
+      "must_not_break": [],
+      "voice_notes": []
+    }
+  ],
+  "status": "draft"
+}
