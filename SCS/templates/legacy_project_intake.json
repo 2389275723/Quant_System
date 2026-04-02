@@ -1,0 +1,18 @@
+{
+  "project_id": "",
+  "title": "",
+  "existing_chapter_count": 0,
+  "estimated_total_length": "unknown/short/mid/long/very_long",
+  "current_stage_guess": "early/mid/late/pre_final/unknown",
+  "available_assets": {
+    "full_text_available": true,
+    "chapter_summaries_available": false,
+    "outline_available": false,
+    "character_notes_available": false,
+    "ending_notes_available": false
+  },
+  "observed_problem_signals": [],
+  "intake_status": "LIGHT/STANDARD/REPAIR/REBUILD",
+  "blocking_factors": [],
+  "next_action": ""
+}
