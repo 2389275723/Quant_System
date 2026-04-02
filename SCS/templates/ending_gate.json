@@ -1,0 +1,12 @@
+{
+  "project_id": "",
+  "ending_shape_locked": false,
+  "theme_answer_ready": false,
+  "core_payoffs_fulfilled": false,
+  "character_final_states_ready": false,
+  "world_final_state_ready": false,
+  "major_open_risks": [],
+  "must_fix_before_ending": [],
+  "status": "GRANTED/WARN/BLOCKED",
+  "next_action": ""
+}
