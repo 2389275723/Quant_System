@@ -1,0 +1,10 @@
+{
+  "project_id": "",
+  "pair_id": "",
+  "endgame_type": "union/separation/tragic_bond/transformed_bond/unresolved_open_end",
+  "required_final_state": "",
+  "required_costs": [],
+  "must_prepare_early": [],
+  "must_not_break": [],
+  "status": "draft/locked"
+}
