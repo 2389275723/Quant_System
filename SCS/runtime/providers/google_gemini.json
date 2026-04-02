@@ -1,0 +1,12 @@
+{
+  "provider": "google_gemini",
+  "base_url": "https://generativelanguage.googleapis.com",
+  "api_key_env": "GEMINI_API_KEY",
+  "api_format": "google_generative_language",
+  "default_model": "gemini-2.5-pro",
+  "timeout_sec": 120,
+  "retry": {
+    "max_attempts": 3,
+    "backoff_sec": 2
+  }
+}
