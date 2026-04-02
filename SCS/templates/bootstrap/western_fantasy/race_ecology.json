@@ -1,0 +1,25 @@
+{
+  "project_id": "",
+  "races": [
+    {
+      "race_id": "",
+      "name": "",
+      "lifespan_profile": "",
+      "reproduction_profile": "",
+      "core_habitat": "",
+      "social_structure": "",
+      "economic_role": "",
+      "military_style": "",
+      "magical_affinity": "",
+      "religious_tendency": "",
+      "strengths": [],
+      "weaknesses": [],
+      "historical_relations": [],
+      "story_function": ""
+    }
+  ],
+  "coexistence_logic": "",
+  "major_prejudices": [],
+  "assimilation_rules": [],
+  "hard_red_lines": []
+}
