@@ -1,0 +1,11 @@
+{
+  "project_id": "",
+  "endgame_backplanning_status": "missing/partial/done",
+  "payoff_deadline_registry_status": "missing/partial/done",
+  "theme_resolution_status": "aligned/drifting/unresolved",
+  "ending_risk_inputs": [],
+  "must_lock_now": [],
+  "major_risks": [],
+  "next_action": "",
+  "status": "healthy/warn/high_risk"
+}
