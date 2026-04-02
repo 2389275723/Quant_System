@@ -1,0 +1,27 @@
+{
+  "name": "SCS",
+  "type": "skill_repository_example",
+  "description": "用于长篇项目治理的 Story Control System 示例发布清单。",
+  "main_readme": "README.md",
+  "docs": [
+    "docs/architecture.md",
+    "docs/getting-started.md",
+    "docs/recommended-stacks.md"
+  ],
+  "templates": [
+    "templates/project_bible.json",
+    "templates/chapter_contract.json",
+    "templates/issue_queue.json",
+    "templates/chapter_run_packet.json",
+    "templates/volume_health_report.json"
+  ],
+  "presets": [
+    "presets/new_project_standard.json",
+    "presets/new_project_complex.json",
+    "presets/legacy_project_migration.json",
+    "presets/full_governance.json"
+  ],
+  "warning": [
+    "这是仓库级示例发布清单，不代表任何第三方平台的官方 manifest 格式。"
+  ]
+}
