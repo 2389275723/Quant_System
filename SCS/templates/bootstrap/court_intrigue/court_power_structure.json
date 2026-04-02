@@ -1,0 +1,17 @@
+{
+  "project_id": "",
+  "throne_structure": {
+    "emperor_power_scope": "",
+    "crown_prince_status": "",
+    "regency_exists": true,
+    "inner_court_influence": "",
+    "royal_clan_influence": ""
+  },
+  "civil_power_chain": [],
+  "military_power_chain": [],
+  "inner_court_power_chain": [],
+  "seal_order_control": "",
+  "finance_control": "",
+  "inspection_control": "",
+  "hard_red_lines": []
+}
