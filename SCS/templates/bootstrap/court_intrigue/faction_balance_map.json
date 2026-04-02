@@ -1,0 +1,18 @@
+{
+  "project_id": "",
+  "major_factions": [
+    {
+      "faction_id": "",
+      "name": "",
+      "power_base": "",
+      "public_position": "",
+      "hidden_goal": "",
+      "allies": [],
+      "rivals": [],
+      "fatal_weakness": ""
+    }
+  ],
+  "balance_logic": "",
+  "collapse_triggers": [],
+  "status": "draft/locked"
+}
