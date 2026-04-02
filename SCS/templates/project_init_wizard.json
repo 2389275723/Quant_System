@@ -1,0 +1,22 @@
+{
+  "project_id": "",
+  "title": "",
+  "one_line_hook": "",
+  "genre_tags": [],
+  "target_length": "short/mid/long/very_long",
+  "primary_reader_expectation": "",
+  "core_engine": "world/relationship/power/growth/mystery/mixed",
+  "has_heavy_worldbuilding": true,
+  "has_multi_volume_plan": true,
+  "has_clear_endgame": true,
+  "route_result": {
+    "primary_route": "",
+    "secondary_routes": [],
+    "write_permission": "DENIED/GRANTED"
+  },
+  "recommended_mode": "mvp/standard/full",
+  "must_generate_now": [],
+  "can_delay": [],
+  "current_blockers": [],
+  "next_action": ""
+}
