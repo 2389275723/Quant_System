@@ -1,0 +1,20 @@
+{
+  "project_id": "demo_project_001",
+  "title": "示例项目名",
+  "genre": "xianxia",
+  "subgenre": "升级流",
+  "one_line_hook": "一句话卖点写这里",
+  "three_line_pitch": [
+    "第一句：主角是谁",
+    "第二句：核心冲突是什么",
+    "第三句：读者持续追更的原因是什么"
+  ],
+  "core_theme": "主题答案写这里",
+  "story_promise": "这本书承诺给读者什么",
+  "must_keep_elements": [],
+  "forbidden_items": [],
+  "red_lines": [],
+  "author_intent_lock": [],
+  "current_status": "INIT",
+  "version": "1.0"
+}
