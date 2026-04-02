@@ -1,0 +1,29 @@
+{
+  "project_id": "high_end_demo_001",
+  "title": "高阶新书示例",
+  "genre": "xianxia",
+  "subgenre": "mixed_longform",
+  "one_line_hook": "主角携带旧世残片，在现世升级、关系撕扯与终局真相之间夺回定义权。",
+  "three_line_pitch": [
+    "第一句：主角被卷入高位秩序与旧日残党的双重追杀。",
+    "第二句：他必须在成长、夺资源、保关系之间不断选择并付出代价。",
+    "第三句：整本书最终回答的是谁有资格定义世界与自我。"
+  ],
+  "core_theme": "活下去、夺回定义权、在代价中完成真正的自我确认。",
+  "story_promise": "升级爽感、关系拉扯、规则智斗、终局真相收束。",
+  "must_keep_elements": [
+    "成长线必须持续推进",
+    "关系线必须承担真实代价",
+    "终局真相必须逐层显影"
+  ],
+  "forbidden_items": [
+    "主角为了爽点无缘由高调降智",
+    "世界规则后期随意推翻"
+  ],
+  "red_lines": [],
+  "author_intent_lock": [
+    "这不是纯单爽文，关系与代价必须真实有效"
+  ],
+  "current_status": "INIT",
+  "version": "1.0"
+}
