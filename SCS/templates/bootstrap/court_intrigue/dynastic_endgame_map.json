@@ -1,0 +1,10 @@
+{
+  "project_id": "",
+  "endgame_type": "succession/overthrow/regency_consolidation/reformist_takeover/dynasty_collapse",
+  "final_ruler_state": "",
+  "institutional_final_state": "",
+  "required_turning_points": [],
+  "must_prepare_early": [],
+  "must_not_break": [],
+  "status": "draft/locked"
+}
