@@ -1,0 +1,11 @@
+{
+  "project_id": "",
+  "final_volume_ready": false,
+  "endgame_backplanning_ready": false,
+  "payoff_deadline_registry_ready": false,
+  "theme_resolution_safe": false,
+  "major_open_risks": [],
+  "must_fix_before_final_volume": [],
+  "status": "GRANTED/WARN/BLOCKED",
+  "next_action": ""
+}
