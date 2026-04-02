@@ -1,0 +1,17 @@
+{
+  "project_id": "",
+  "mobility_routes": [
+    {
+      "route_id": "",
+      "character_id": "",
+      "from_status": "",
+      "to_status": "",
+      "required_cost": "",
+      "gatekeepers": [],
+      "social_backlash": ""
+    }
+  ],
+  "blocked_routes": [],
+  "shortcut_risks": [],
+  "status": "draft/locked"
+}
