@@ -1,0 +1,11 @@
+{
+  "project_id": "",
+  "milestone_status": "",
+  "trigger_engine_status": "",
+  "alert_center_status": "",
+  "fused_risk_status": "",
+  "priority_panel_status": "",
+  "top_auto_governance_findings": [],
+  "must_act_now": [],
+  "status": "healthy/warn/high_risk"
+}
