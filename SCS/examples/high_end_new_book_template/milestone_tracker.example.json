@@ -1,0 +1,39 @@
+{
+  "project_id": "high_end_demo_001",
+  "milestones": [
+    {
+      "milestone_id": "ms_001",
+      "category": "story",
+      "name": "第一次不可逆代价",
+      "expected_window_start": 1,
+      "expected_window_end": 5,
+      "current_status": "upcoming",
+      "evidence": [],
+      "risk_if_delayed": "主角成长线会显得过轻",
+      "owner": "chapter_writer"
+    },
+    {
+      "milestone_id": "ms_002",
+      "category": "relationship",
+      "name": "核心关系第一次有效位移",
+      "expected_window_start": 3,
+      "expected_window_end": 8,
+      "current_status": "upcoming",
+      "evidence": [],
+      "risk_if_delayed": "关系线会沦为空转观察",
+      "owner": "chapter_writer"
+    },
+    {
+      "milestone_id": "ms_003",
+      "category": "finale",
+      "name": "endgame_backplanning 完整锁定",
+      "expected_window_start": 1,
+      "expected_window_end": 10,
+      "current_status": "due",
+      "evidence": [],
+      "risk_if_delayed": "中段可能提前透支终局资产",
+      "owner": "finale_supervisor"
+    }
+  ],
+  "tracker_status": "warn"
+}
