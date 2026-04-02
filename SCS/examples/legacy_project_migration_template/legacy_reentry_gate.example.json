@@ -1,0 +1,12 @@
+{
+  "project_id": "legacy_demo_001",
+  "migration_mode": "REPAIR",
+  "foundation_ready": false,
+  "history_ready": true,
+  "critical_issues_closed": false,
+  "payoff_recovery_ready": false,
+  "finale_recovery_ready": true,
+  "safe_reentry_point": "repair_before_reentry",
+  "status": "BLOCKED",
+  "next_action": "先完成 repair 清单中的高优先项"
+}
