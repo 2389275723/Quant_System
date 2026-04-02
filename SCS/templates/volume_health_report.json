@@ -1,0 +1,29 @@
+{
+  "project_id": "",
+  "volume_id": "",
+  "volume_name": "",
+  "chapter_range": "",
+  "health_summary": {
+    "theme_alignment": "",
+    "main_conflict_strength": "",
+    "midpoint_effectiveness": "",
+    "climax_readiness": "",
+    "payoff_progress": "",
+    "relationship_progress": "",
+    "world_expansion_control": "",
+    "fatigue_risk": ""
+  },
+  "top_strengths": [],
+  "top_risks": [
+    {
+      "severity": "P0/P1/P2",
+      "category": "theme/conflict/payoff/relationship/world/pacing/fatigue",
+      "description": "",
+      "why_risky": "",
+      "fix_direction": ""
+    }
+  ],
+  "must_fix_before_next_volume": [],
+  "must_prepare_next": [],
+  "status": "healthy/warn/drifting/high_risk"
+}
