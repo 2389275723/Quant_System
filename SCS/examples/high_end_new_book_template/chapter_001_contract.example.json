@@ -1,0 +1,36 @@
+{
+  "project_id": "high_end_demo_001",
+  "chapter_id": 1,
+  "volume_id": "vol_001",
+  "chapter_title_working": "第一章：越界启动",
+  "objective": "完成主角第一次真正意义上的越界启动，并钉下高压求生底色。",
+  "main_push": "主角被迫从被动卷入转为主动抢下第一块关键资源。",
+  "conflict_type": "规则冲突 + 生存冲突",
+  "emotion_target": "压迫、失衡、险中夺命后的短促快感",
+  "relationship_shift": "核心搭档对主角从纯观察转为危险兴趣",
+  "required_information": [
+    "高位秩序并非无处不在，但其阴影清晰存在",
+    "主角的行动逻辑是风险优先而非爽点优先"
+  ],
+  "required_cost": "主角必须在本章中真实承担一次不可逆代价",
+  "hook_type": "资源到手但更大追杀启动",
+  "completion_signal": "本章结束时，主角已从普通求生切入系统性冲突主线。",
+  "forbidden_moves": [
+    "不能靠纯讲解解释世界",
+    "不能为了酷而无收益挑衅强敌"
+  ],
+  "dependencies": [
+    "project_bible",
+    "canon_rules",
+    "volume_plan"
+  ],
+  "foreshadow_use": [],
+  "foreshadow_add": [
+    "旧层世界裂缝",
+    "高位势力观测逻辑"
+  ],
+  "risk_notes": [
+    "避免第一章就过量透出终局信息"
+  ],
+  "approval_status": "PLAN_DRAFTED"
+}
