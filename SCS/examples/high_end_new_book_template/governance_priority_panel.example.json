@@ -1,0 +1,36 @@
+{
+  "project_id": "high_end_demo_001",
+  "top_priorities": [
+    {
+      "priority_rank": 1,
+      "issue_or_fused_risk_id": "risk_001",
+      "category": "finale",
+      "severity": "P1",
+      "why_now": "终局层前置条件如果不尽早锁定，前中段容易过度透支终局资产。",
+      "recommended_action": "尽快补齐 endgame_backplanning 和 payoff_deadline_registry。",
+      "expected_gain_if_fixed": "能更稳地控制 reveal 与 payoff 节奏。"
+    },
+    {
+      "priority_rank": 2,
+      "issue_or_fused_risk_id": "risk_002",
+      "category": "relationship",
+      "severity": "P1",
+      "why_now": "核心关系早期若不形成有效位移，后续会变成空转观察。",
+      "recommended_action": "在前 3-8 章设计一次带代价的微位移。",
+      "expected_gain_if_fixed": "关系线会更早建立真实张力。"
+    },
+    {
+      "priority_rank": 3,
+      "issue_or_fused_risk_id": "risk_003",
+      "category": "character",
+      "severity": "P2",
+      "why_now": "主角一旦被写成纯爽点嘴炮模板，后续纠偏成本高。",
+      "recommended_action": "严格保护风险优先、冷静克制的 baseline。",
+      "expected_gain_if_fixed": "人物底色会更稳定。"
+    }
+  ],
+  "can_wait": [
+    "更细的世界层级扩展可在第一卷后半再补"
+  ],
+  "panel_status": "focused"
+}
