@@ -1,0 +1,19 @@
+{
+  "project_id": "",
+  "current_mode": "mvp/standard/full",
+  "current_project_stage": "early/mid/late/pre_final",
+  "switch_analysis": {
+    "length_pressure": "",
+    "world_complexity_pressure": "",
+    "relationship_complexity_pressure": "",
+    "route_complexity_pressure": "",
+    "issue_queue_pressure": "",
+    "finale_preparation_pressure": ""
+  },
+  "recommended_mode": "mvp/standard/full",
+  "switch_reason": [],
+  "must_enable_now": [],
+  "can_still_delay": [],
+  "risk_if_not_switch": [],
+  "status": "keep/switch_warn/switch_now"
+}
