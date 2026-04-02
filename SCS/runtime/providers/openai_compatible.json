@@ -1,0 +1,12 @@
+{
+  "provider": "openai_compatible",
+  "base_url_env": "OPENAI_COMPATIBLE_BASE_URL",
+  "api_key_env": "OPENAI_COMPATIBLE_API_KEY",
+  "api_format": "openai_chat_completions",
+  "default_model": "your-model-name",
+  "timeout_sec": 120,
+  "retry": {
+    "max_attempts": 3,
+    "backoff_sec": 2
+  }
+}
