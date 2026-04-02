@@ -1,0 +1,18 @@
+{
+  "project_id": "",
+  "conflicts": [
+    {
+      "conflict_id": "",
+      "characters": [],
+      "career_pressure": "",
+      "relationship_pressure": "",
+      "collision_point": "",
+      "what_must_be_chosen": "",
+      "cost_if_career_wins": "",
+      "cost_if_relationship_wins": ""
+    }
+  ],
+  "temporary_balances": [],
+  "must_not_fake_resolve": [],
+  "status": "draft/locked"
+}
