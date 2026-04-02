@@ -1,0 +1,25 @@
+{
+  "project_id": "legacy_demo_001",
+  "route_result": {
+    "primary_route": "xianxia",
+    "secondary_routes": [
+      "high_concept_relationship"
+    ]
+  },
+  "migration_mode": "REPAIR",
+  "foundation_status": "PARTIAL",
+  "history_reconstruction_status": "PARTIAL",
+  "issue_status": "warn",
+  "payoff_status": "warn",
+  "finale_status": "repair_needed",
+  "safe_reentry_point": "next_volume_start",
+  "must_fix_now": [
+    "修复关系 payoff",
+    "补齐卷边界定义"
+  ],
+  "can_fix_after_reentry": [
+    "统一部分世界规则措辞"
+  ],
+  "write_permission": "DENIED",
+  "next_action": "先完成 repair 清单，再申请 reentry gate"
+}
