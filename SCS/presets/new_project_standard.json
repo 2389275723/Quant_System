@@ -1,0 +1,28 @@
+{
+  "preset_name": "new_project_standard",
+  "recommended_stack": [
+    "V1.0 Core",
+    "V1.1a Route Layer",
+    "V1.1b Workbench Layer"
+  ],
+  "must_enable": [
+    "bootstrap_router",
+    "project_bible",
+    "canon_rules",
+    "character_state",
+    "volume_plan",
+    "chapter_contract",
+    "chapter_run_packet",
+    "chapter_status_dashboard",
+    "chapter_block_report",
+    "issue_queue",
+    "volume_health_report",
+    "volume_transition_gate",
+    "project_status_dashboard"
+  ],
+  "best_for": [
+    "从零开正式长篇",
+    "题材明确的修仙/关系/权谋/西幻项目",
+    "想要稳定闭环但不想一上来太重"
+  ]
+}
