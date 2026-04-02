@@ -1,0 +1,21 @@
+{
+  "project_id": "",
+  "instances": [
+    {
+      "instance_id": "",
+      "name": "",
+      "theme": "",
+      "entry_condition": "",
+      "core_rule": "",
+      "dominant_threat": "",
+      "clear_condition": "",
+      "failure_cost": "",
+      "reward_type": "",
+      "story_function": ""
+    }
+  ],
+  "rotation_logic": "",
+  "difficulty_curve": [],
+  "must_not_repeat": [],
+  "status": "draft/locked"
+}
