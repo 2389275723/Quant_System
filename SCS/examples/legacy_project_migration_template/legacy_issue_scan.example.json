@@ -1,0 +1,23 @@
+{
+  "project_id": "legacy_demo_001",
+  "scan_findings": [
+    {
+      "issue_id": "legacy_issue_001",
+      "severity": "P1",
+      "category": "payoff",
+      "description": "中段一条核心关系 payoff 已明显变弱",
+      "evidence_range": "chapter_24_to_32",
+      "why_risky": "若继续拖延，终局关系回报会失真",
+      "repair_direction": "尽快补一次有代价的关系兑现节点"
+    }
+  ],
+  "global_status": "warn",
+  "must_fix_before_reentry": [
+    "确认当前卷边界",
+    "修复弱化的关系 payoff"
+  ],
+  "can_fix_after_reentry": [
+    "部分世界规则措辞统一"
+  ],
+  "next_action": "进入 payoff recovery"
+}
