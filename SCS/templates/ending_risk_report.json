@@ -1,0 +1,16 @@
+{
+  "project_id": "",
+  "risks": [
+    {
+      "risk_id": "",
+      "severity": "P0/P1/P2",
+      "category": "theme/payoff/world/character/relationship/reveal/ending_shape",
+      "description": "",
+      "why_risky": "",
+      "fix_direction": ""
+    }
+  ],
+  "overall_status": "safe/warn/high_risk",
+  "must_fix_before_ending": [],
+  "next_action": ""
+}
