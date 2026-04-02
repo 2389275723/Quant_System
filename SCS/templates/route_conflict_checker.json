@@ -1,0 +1,23 @@
+{
+  "project_id": "",
+  "primary_route": "",
+  "secondary_routes": [],
+  "conflicts": [
+    {
+      "conflict_id": "",
+      "routes_involved": [],
+      "conflict_type": "exposure/pacing/payoff/character/worldscale/ending_shape/theme_priority",
+      "description": "",
+      "why_conflict_exists": "",
+      "risk_level": "P0/P1/P2",
+      "priority_route": "",
+      "decision_rule": "",
+      "fallback_solution": "",
+      "status": "open/resolved/escalated"
+    }
+  ],
+  "overall_conflict_status": "clean/warn/high_risk",
+  "must_resolve_now": [],
+  "safe_coexistence_rules": [],
+  "next_action": ""
+}
