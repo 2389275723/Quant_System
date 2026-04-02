@@ -1,0 +1,80 @@
+{
+  "project_id": "high_end_demo_001",
+  "chapter_id": 1,
+  "volume_id": "vol_001",
+  "title_working": "第一章：越界启动",
+  "runtime_scope": {
+    "project_hook": "主角携带旧世残片，在升级、关系撕扯与终局真相之间夺回定义权。",
+    "current_volume_goal": "活下来并完成第一次主动夺资源",
+    "chapter_objective": "完成第一次系统性越界启动",
+    "main_push": "从被动卷入转入主动抢夺",
+    "completion_signal": "主角正式踏入主线高压冲突"
+  },
+  "must_keep": {
+    "canon_rules": [
+      "高位力量介入必须伴随门槛与代价"
+    ],
+    "character_state": [
+      "主角冷静、克制、风险优先"
+    ],
+    "foreshadow_dependencies": [],
+    "style_constraints": [
+      "不要大段讲设定",
+      "压迫感优先于解释感"
+    ],
+    "ending_constraints": [
+      "终局真相只能露疑点，不可露答案"
+    ]
+  },
+  "current_context": {
+    "recent_events": [],
+    "active_tensions": [
+      "高位秩序观测压力",
+      "旧势力试探"
+    ],
+    "current_relationship_states": [
+      "核心搭档处于观察和试探阶段"
+    ],
+    "current_world_exposure_limit": "只露裂缝与阴影，不露完整层级",
+    "current_endgame_exposure_limit": "禁止完整解释终局机制"
+  },
+  "production_inputs": {
+    "required_information": [
+      "主角抢下关键资源的必要性",
+      "世界规则的压迫边缘"
+    ],
+    "required_cost": "一次不可逆的实际代价",
+    "forbidden_moves": [
+      "主角降智式高调",
+      "一次性讲透世界背景"
+    ],
+    "hook_type": "更大追杀启动",
+    "target_emotion": "压迫 + 快感 + 更大危险逼近",
+    "scene_pressure": "高"
+  },
+  "risk_focus": {
+    "main_risks": [
+      "首章透支终局信息",
+      "把主角写成嘴炮爽文模板"
+    ],
+    "do_not_repeat": [],
+    "do_not_overexplain": [
+      "世界观解释"
+    ],
+    "do_not_break": [
+      "主角的风险判断逻辑"
+    ]
+  },
+  "route_specific_addons": {
+    "xianxia": [
+      "资源争夺要与成长成本绑定"
+    ],
+    "relationship": [
+      "搭档只发生微弱但有效的态度位移"
+    ],
+    "court_intrigue": [],
+    "western_fantasy": [],
+    "general": []
+  },
+  "ready_status": "READY"
+}
