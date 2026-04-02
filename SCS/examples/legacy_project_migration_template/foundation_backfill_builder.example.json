@@ -1,0 +1,25 @@
+{
+  "project_id": "legacy_demo_001",
+  "backfill_targets": {
+    "project_bible": "recovered",
+    "canon_rules": "partial",
+    "character_state": "recovered",
+    "volume_plan": "partial"
+  },
+  "recovered_core": {
+    "core_hook": "主角带着旧日残片在现世修复失控飞升链",
+    "core_theme_guess": "活下去与夺回定义权",
+    "main_conflict_guess": "主角与旧秩序/旧势力的双重对抗",
+    "current_mc_state": "已进入中段，力量成长明显，但代价线不稳",
+    "current_world_scope": "中层世界已打开",
+    "current_volume_guess": "第二卷中后段"
+  },
+  "uncertain_areas": [
+    "部分世界规则表述前后不完全一致"
+  ],
+  "hard_conflicts_found": [],
+  "repair_needed_before_lock": [
+    "补齐第二卷边界定义"
+  ],
+  "status": "PARTIAL"
+}
