@@ -1,0 +1,19 @@
+{
+  "project_id": "",
+  "identity_nodes": [
+    {
+      "identity_id": "",
+      "character_id": "",
+      "public_identity": "",
+      "private_identity": "",
+      "role_expectation": "",
+      "inner_need": "",
+      "contradiction": "",
+      "risk_if_exposed": "",
+      "relationship_impact": ""
+    }
+  ],
+  "cross_identity_conflicts": [],
+  "must_not_flatten": [],
+  "status": "draft/locked"
+}
