@@ -1,0 +1,16 @@
+{
+  "project_id": "",
+  "payoffs": [
+    {
+      "payoff_id": "",
+      "type": "career/relationship/dual",
+      "setup_range": "",
+      "promised_result": "",
+      "best_window": "",
+      "deadline": "",
+      "status": "open/ready/fulfilled/missed"
+    }
+  ],
+  "balance_rule": "",
+  "status": "draft/locked"
+}
