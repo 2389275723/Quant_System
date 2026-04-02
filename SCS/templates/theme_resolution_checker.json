@@ -1,0 +1,10 @@
+{
+  "project_id": "",
+  "core_theme": "",
+  "current_answer_direction": "",
+  "drift_signals": [],
+  "evidence_ranges": [],
+  "why_drifting": "",
+  "must_correct_before_finale": [],
+  "status": "aligned/warn/drifting/unresolved"
+}
