@@ -1,0 +1,16 @@
+{
+  "project_id": "",
+  "input_risks": [],
+  "fused_risks": [
+    {
+      "fused_risk_id": "",
+      "components": [],
+      "fused_category": "",
+      "severity": "P0/P1/P2",
+      "why_more_dangerous_together": "",
+      "must_fix_now": [],
+      "owner": ""
+    }
+  ],
+  "status": "healthy/warn/high_risk"
+}
