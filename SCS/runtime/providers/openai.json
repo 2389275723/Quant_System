@@ -1,0 +1,12 @@
+{
+  "provider": "openai",
+  "base_url": "https://api.openai.com/v1",
+  "api_key_env": "OPENAI_API_KEY",
+  "api_format": "openai_chat_completions",
+  "default_model": "gpt-5",
+  "timeout_sec": 120,
+  "retry": {
+    "max_attempts": 3,
+    "backoff_sec": 2
+  }
+}
