@@ -1,0 +1,49 @@
+{
+  "project_id": "demo_project_001",
+  "chapter_id": 1,
+  "volume_id": "vol_001",
+  "title_working": "第一章暂定名",
+  "runtime_scope": {
+    "project_hook": "项目一句话钩子",
+    "current_volume_goal": "当前卷目标",
+    "chapter_objective": "当前章目标",
+    "main_push": "当前章推进点",
+    "completion_signal": "完成标志"
+  },
+  "must_keep": {
+    "canon_rules": [],
+    "character_state": [],
+    "foreshadow_dependencies": [],
+    "style_constraints": [],
+    "ending_constraints": []
+  },
+  "current_context": {
+    "recent_events": [],
+    "active_tensions": [],
+    "current_relationship_states": [],
+    "current_world_exposure_limit": "",
+    "current_endgame_exposure_limit": ""
+  },
+  "production_inputs": {
+    "required_information": [],
+    "required_cost": "",
+    "forbidden_moves": [],
+    "hook_type": "",
+    "target_emotion": "",
+    "scene_pressure": ""
+  },
+  "risk_focus": {
+    "main_risks": [],
+    "do_not_repeat": [],
+    "do_not_overexplain": [],
+    "do_not_break": []
+  },
+  "route_specific_addons": {
+    "xianxia": [],
+    "relationship": [],
+    "court_intrigue": [],
+    "western_fantasy": [],
+    "general": []
+  },
+  "ready_status": "READY"
+}
