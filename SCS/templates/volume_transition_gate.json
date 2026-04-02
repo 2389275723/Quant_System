@@ -1,0 +1,28 @@
+{
+  "project_id": "",
+  "from_volume_id": "",
+  "to_volume_id": "",
+  "transition_check": {
+    "current_volume_core_goal_resolved": false,
+    "current_volume_required_payoffs_done": false,
+    "current_volume_required_setups_planted": false,
+    "open_p0_issues_exist": false,
+    "open_p1_issues_tolerable": false,
+    "character_state_ready_for_next_volume": false,
+    "world_scope_ready_for_next_volume": false,
+    "theme_continuity_safe": false,
+    "next_volume_entry_hook_ready": false
+  },
+  "major_risks": [
+    {
+      "severity": "P0/P1/P2",
+      "category": "goal/payoff/setup/issue/character/world/theme/hook",
+      "description": "",
+      "why_risky": "",
+      "fix_direction": ""
+    }
+  ],
+  "must_fix_before_transition": [],
+  "status": "GRANTED/WARN/BLOCKED",
+  "next_action": ""
+}
