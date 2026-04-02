@@ -1,0 +1,17 @@
+{
+  "project_id": "",
+  "city_zones": [
+    {
+      "zone_id": "",
+      "name": "",
+      "surface_identity": "",
+      "hidden_pressure": "",
+      "dominant_faction": "",
+      "civilian_risk": "",
+      "story_use": ""
+    }
+  ],
+  "pressure_events": [],
+  "exposure_hotspots": [],
+  "status": "draft/locked"
+}
