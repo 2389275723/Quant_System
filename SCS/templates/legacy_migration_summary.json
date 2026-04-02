@@ -1,0 +1,18 @@
+{
+  "project_id": "",
+  "route_result": {
+    "primary_route": "",
+    "secondary_routes": []
+  },
+  "migration_mode": "LIGHT/STANDARD/REPAIR/REBUILD",
+  "foundation_status": "",
+  "history_reconstruction_status": "",
+  "issue_status": "",
+  "payoff_status": "",
+  "finale_status": "",
+  "safe_reentry_point": "",
+  "must_fix_now": [],
+  "can_fix_after_reentry": [],
+  "write_permission": "DENIED/GRANTED",
+  "next_action": ""
+}
