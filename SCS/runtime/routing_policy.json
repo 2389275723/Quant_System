@@ -1,0 +1,27 @@
+{
+  "policies": {
+    "new_project_high_end": {
+      "stack": ["V1.0", "V1.1a", "V1.1b", "V1.1c", "V1.2b"],
+      "writer_role": "chapter_writer",
+      "planner_role": "project_bible_builder",
+      "review_role": "chapter_reviewer",
+      "governance_role": "character_drift_monitor"
+    },
+    "long_context_heavy": {
+      "preferred_models": ["claude_long_context", "gemini_structured"],
+      "use_for": ["project_bible", "canon_rules", "volume_plan", "legacy_backfill", "finale_supervisor"]
+    },
+    "style_heavy": {
+      "preferred_models": ["writer_style_primary"],
+      "use_for": ["chapter_writer", "chapter_rewriter", "style_director"]
+    },
+    "governance_heavy": {
+      "preferred_models": ["gpt_planner_primary"],
+      "use_for": ["review", "drift", "fatigue", "reveal", "route_conflict", "theme_resolution"]
+    },
+    "low_cost_utility": {
+      "preferred_models": ["cheap_utility_model"],
+      "use_for": ["summary", "formatting", "indexing", "auto_governance_summary"]
+    }
+  }
+}
