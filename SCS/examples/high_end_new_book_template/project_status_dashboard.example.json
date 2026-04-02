@@ -1,0 +1,42 @@
+{
+  "project_id": "high_end_demo_001",
+  "title": "高阶新书示例",
+  "current_mode": "full",
+  "primary_route": "xianxia",
+  "secondary_routes": [
+    "high_concept_relationship"
+  ],
+  "global_state": "FOUNDATION",
+  "progress_summary": {
+    "bootstrap": "done",
+    "foundation": "partial",
+    "volumes": {"planned": 2, "active": 0, "completed": 0},
+    "chapters": {"planned": 55, "drafted": 0, "archived": 0, "blocked": 0},
+    "operations": {
+      "issue_queue_status": "healthy",
+      "last_5chap_recap": "",
+      "last_20chap_recap": "",
+      "repetition_risk": "low",
+      "pacing_risk": "low"
+    },
+    "finale": {
+      "endgame_backplanning": "partial",
+      "payoff_deadline_registry": "partial",
+      "theme_resolution_status": "aligned",
+      "ending_risk_status": "safe"
+    }
+  },
+  "highest_global_risks": [
+    "新书早期最容易过快透出终局层信息"
+  ],
+  "current_blockers": [],
+  "must_fix_now": [
+    "锁定第一卷 required payoffs"
+  ],
+  "recommended_next_actions": [
+    "完成 chapter_001_contract",
+    "完成 chapter_001_run_packet",
+    "初始化 milestone_tracker"
+  ],
+  "status": "healthy"
+}
