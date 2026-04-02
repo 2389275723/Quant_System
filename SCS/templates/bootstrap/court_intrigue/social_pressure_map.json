@@ -1,0 +1,16 @@
+{
+  "project_id": "",
+  "pressure_groups": [
+    {
+      "group_id": "",
+      "name": "",
+      "type": "scholars/merchants/commoners/frontier_elites/royal_clan/religious_authority/military_households",
+      "core_demand": "",
+      "political_weight": "",
+      "manipulation_risk": ""
+    }
+  ],
+  "public_opinion_levers": [],
+  "riot_or_unrest_triggers": [],
+  "status": "draft/locked"
+}
