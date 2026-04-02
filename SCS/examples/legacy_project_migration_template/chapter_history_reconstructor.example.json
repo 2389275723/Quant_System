@@ -1,0 +1,30 @@
+{
+  "project_id": "legacy_demo_001",
+  "reconstructed_ranges": [
+    {
+      "range": "chapter_1_to_20",
+      "major_events": [
+        "主角获得核心残片",
+        "第一次卷入高位势力追杀"
+      ],
+      "character_shifts": [
+        "主角从被动求生转入主动夺资源"
+      ],
+      "relationship_shifts": [
+        "核心搭档关系由试探转为初步绑定"
+      ],
+      "foreshadow_events": [
+        "旧日飞升链异常",
+        "上层世界信息裂缝"
+      ],
+      "volume_progress_signals": [
+        "第一卷收束点较明确"
+      ]
+    }
+  ],
+  "continuity_gaps": [
+    "第21章到第23章之间部分动机衔接偏弱"
+  ],
+  "untraceable_sections": [],
+  "status": "PARTIAL"
+}
