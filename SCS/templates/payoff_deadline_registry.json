@@ -1,0 +1,17 @@
+{
+  "project_id": "",
+  "payoffs": [
+    {
+      "payoff_id": "",
+      "category": "relationship/world/mystery/theme/cost/promise",
+      "origin_range": "",
+      "best_window_start": 0,
+      "best_window_end": 0,
+      "deadline": 0,
+      "status": "open/ready/fulfilled/missed",
+      "risk_if_missed": "",
+      "recovery_plan": ""
+    }
+  ],
+  "registry_status": "healthy/warn/high_risk"
+}
