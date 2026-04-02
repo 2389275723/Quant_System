@@ -1,0 +1,15 @@
+{
+  "project_id": "",
+  "escalation_stages": [
+    {
+      "stage_id": "",
+      "rule_complexity": "",
+      "information_visibility": "",
+      "punishment_model": "",
+      "counterplay_space": "",
+      "reader_novelty_goal": ""
+    }
+  ],
+  "anti_formula_rules": [],
+  "status": "draft/locked"
+}
