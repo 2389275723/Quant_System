@@ -1,0 +1,83 @@
+{
+  "project_id": "epoch_reload_001",
+  "chapter_id": 1,
+  "chapter_title": "权限考核",
+  "input_version": "draft_v1",
+  "detectors": {
+    "summary_tone_detector": {
+      "status": "high_risk",
+      "trigger_lines": [
+        "他以为自己只是从这场考核里抢回了一条命。",
+        "直到很多年后他才明白——"
+      ],
+      "why_flagged": [
+        "章末使用总结式钩子",
+        "作者替读者归纳意义"
+      ]
+    },
+    "exposition_pressure_checker": {
+      "status": "high_risk",
+      "trigger_sections": [
+        "三界撞击后的解释段",
+        "苏哲观察接缝时的规则推演段"
+      ],
+      "why_flagged": [
+        "高压动作段中解释密度过高",
+        "规则推演压住了战斗爽感"
+      ]
+    },
+    "scene_motion_guard": {
+      "status": "partial",
+      "weak_sections": [
+        "接缝观察段",
+        "章末总结段"
+      ],
+      "why_flagged": [
+        "部分段落动作在变慢，解释在变多"
+      ]
+    },
+    "voice_intrusion_checker": {
+      "status": "high_risk",
+      "trigger_lines": [
+        "这不是事故。",
+        "这不是普通灾难，是多体系现实碰撞。"
+      ],
+      "why_flagged": [
+        "旁白替读者下结论",
+        "作者腔压过了人物视角"
+      ]
+    },
+    "concept_before_scene_checker": {
+      "status": "warn",
+      "trigger_sections": [
+        "点明三界性质的局部段落"
+      ],
+      "why_flagged": [
+        "局部出现先定义后出画面的倾向"
+      ]
+    },
+    "prose_temperature_checker": {
+      "status": "overwritten",
+      "trigger_sections": [
+        "三界撞击的概念拔高段",
+        "章末最后两段"
+      ],
+      "why_flagged": [
+        "高概念词和总结句叠加",
+        "语言往上拔，动作往下掉"
+      ]
+    }
+  },
+  "must_fix_now": [
+    "删除章末总结式收束",
+    "压缩接缝规则推演，改成更直接的动作反杀",
+    "删掉作者替读者下结论的句子",
+    "把三界差异继续藏在感官与动作里，不正面讲解"
+  ],
+  "rewrite_direction": [
+    "提高战斗爽感权重",
+    "先让苏哲狠狠干，再让读者回过头感到规则精妙",
+    "章末只留：伤、碎片、锁定、追杀"
+  ],
+  "status": "BLOCKED"
+}
