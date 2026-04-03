@@ -1,0 +1,39 @@
+{
+  "project_id": "",
+  "chapter_id": 0,
+  "chapter_title": "",
+  "ending_text_range": "",
+  "hook_check": {
+    "is_scene_hook": false,
+    "is_summary_hook": false,
+    "has_new_danger": false,
+    "has_new_cost": false,
+    "has_new_observation_or_lockon": false,
+    "has_new_goal_or_resource": false,
+    "has_template_tail": false
+  },
+  "blocked_patterns": [
+    "他以为……后来才知道……",
+    "他不知道的是……",
+    "很多年后他才明白……",
+    "命运从这一刻开始……",
+    "这只是开始……",
+    "从这一刻起，一切都变了……"
+  ],
+  "preferred_hook_types": [
+    "新危险启动",
+    "新代价落下",
+    "更高层观测开始",
+    "主角拿到资源但付出后遗症",
+    "局部胜利换来更大猎杀"
+  ],
+  "trigger_lines": [],
+  "why_blocked": [],
+  "rewrite_direction": [
+    "删掉高位总结句",
+    "保留现场中的一个新变化",
+    "让钩子落在物、伤、追杀、观测或未解危险上",
+    "最后一句必须属于场景，不属于作者"
+  ],
+  "status": "GRANTED/WARN/BLOCKED"
+}
