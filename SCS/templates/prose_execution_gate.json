@@ -1,0 +1,89 @@
+{
+  "project_id": "",
+  "chapter_id": 0,
+  "chapter_title": "",
+  "input_version": "writer_draft_v1",
+  "detectors": {
+    "summary_tone_detector": {
+      "status": "safe/warn/high_risk",
+      "trigger_lines": [],
+      "why_flagged": [],
+      "blocked_patterns": [
+        "他这才意识到",
+        "很多年后他才知道",
+        "这意味着",
+        "从这一刻起",
+        "原来这不是……而是……",
+        "他终于明白"
+      ]
+    },
+    "exposition_pressure_checker": {
+      "status": "safe/warn/high_risk",
+      "trigger_sections": [],
+      "why_flagged": [],
+      "blocked_patterns": [
+        "高压动作场景中连续解释设定",
+        "人物在快死时完整分析世界观",
+        "概念先于画面",
+        "用说明替代冲突"
+      ]
+    },
+    "scene_motion_guard": {
+      "status": "healthy/partial/stalled",
+      "weak_sections": [],
+      "why_flagged": [],
+      "required_motion": [
+        "动作推进",
+        "冲突升级",
+        "选择发生",
+        "代价落下"
+      ]
+    },
+    "voice_intrusion_checker": {
+      "status": "safe/warn/high_risk",
+      "trigger_lines": [],
+      "why_flagged": [],
+      "blocked_patterns": [
+        "作者替读者下结论",
+        "旁白替角色理解意义",
+        "角色不知道的高位概括突然出现",
+        "场面还没结束，旁白先总结主题"
+      ]
+    },
+    "concept_before_scene_checker": {
+      "status": "safe/warn/high_risk",
+      "trigger_sections": [],
+      "why_flagged": [],
+      "blocked_patterns": [
+        "先讲体系名词，再给画面",
+        "先说规则，再给危险",
+        "先说意义，再给事件"
+      ]
+    },
+    "prose_temperature_checker": {
+      "status": "cold/hot/overwritten",
+      "trigger_sections": [],
+      "why_flagged": [],
+      "blocked_patterns": [
+        "高概念大词堆叠",
+        "形容词密度过高",
+        "每段都想拔高",
+        "连续抒情导致压迫感失真"
+      ]
+    }
+  },
+  "must_fix_now": [],
+  "rewrite_direction": [
+    "用现场替代总结",
+    "用动作替代解释",
+    "用即时感受替代高位概括",
+    "先让读者看到，再让读者明白"
+  ],
+  "line_level_rules": [
+    "高压段落中，解释句连续超过2句即判危险",
+    "单段必须至少有一个动作、一个变化或一个风险落点",
+    "人物认知不能超出当前生死场景可承受的信息量",
+    "正文不得用章末总结句替代钩子"
+  ],
+  "status": "GRANTED/WARN/BLOCKED"
+}
